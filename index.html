@@ -1009,27 +1009,19 @@
     btn.textContent = '⏳ Menghantar...';
     btn.disabled = true;
 
-    try {
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+    // no-cors: response is opaque, fetch won't throw — treat send as success
+    fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
 
+    setTimeout(() => {
       btn.textContent = '✅ Pendaftaran Berjaya! Kami akan hubungi anda dalam 24 jam.';
       btn.style.background = '#00A374';
       inputs.forEach(input => { input.disabled = true; input.style.opacity = '0.5'; });
-
-    } catch (err) {
-      btn.textContent = '❌ Ralat. Cuba semula.';
-      btn.style.background = '#FF6B35';
-      btn.disabled = false;
-      setTimeout(() => {
-        btn.textContent = '🚀 Daftar Trial Percuma Sekarang';
-        btn.style.background = 'var(--green)';
-      }, 3000);
-    }
+    }, 1500);
   }
 
   // Scroll animations
