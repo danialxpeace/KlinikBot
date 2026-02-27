@@ -969,7 +969,7 @@
         <input type="text" placeholder="Pulau Pinang, Kuala Lumpur...">
       </div>
 
-      <button class="form-submit" onclick="handleSubmit(this)">🚀 Daftar Trial Percuma Sekarang</button>
+      <button class="form-submit" id="submitBtn">🚀 Daftar Trial Percuma Sekarang</button>
 
 
       <div class="form-guarantee">🔒 Data anda selamat. Tiada spam. Batal bila-bila masa.
@@ -985,44 +985,48 @@
   <p style="font-size:13px;color:var(--grey);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ea828f868685aa81868384838188859ec48793">[email&#160;protected]</a> · +60 11-XXXX XXXX</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyjsDpk6UV2Gz_WEpSThgOH56v4h5TAG8UFrVSkglRQyPvVpR2P2YPztTTADtt_5wk/exec';
 
-  window.handleSubmit = async function(btn) {
-    const fields = ['nama', 'klinik', 'whatsapp', 'negeri'];
-    const inputs = document.querySelectorAll('.form-group input');
-    let allFilled = true;
-    const data = {};
+  document.addEventListener('DOMContentLoaded', function() {
+    var btn = document.getElementById('submitBtn');
+    if (btn) {
+      btn.addEventListener('click', async function() {
+        var fields = ['nama', 'klinik', 'whatsapp', 'negeri'];
+        var inputs = document.querySelectorAll('.form-group input');
+        var allFilled = true;
+        var data = {};
 
-    inputs.forEach((input, i) => {
-      if (!input.value.trim()) {
-        allFilled = false;
-        input.style.borderColor = '#FF6B35';
-        setTimeout(() => input.style.borderColor = 'rgba(255,255,255,0.1)', 2000);
-      } else {
-        data[fields[i]] = input.value.trim();
-      }
-    });
+        inputs.forEach(function(input, i) {
+          if (!input.value.trim()) {
+            allFilled = false;
+            input.style.borderColor = '#FF6B35';
+            setTimeout(function() { input.style.borderColor = 'rgba(255,255,255,0.1)'; }, 2000);
+          } else {
+            data[fields[i]] = input.value.trim();
+          }
+        });
 
-    if (!allFilled) return;
+        if (!allFilled) return;
 
-    btn.textContent = '⏳ Menghantar...';
-    btn.disabled = true;
+        btn.textContent = '⏳ Menghantar...';
+        btn.disabled = true;
 
-    // no-cors: response is opaque, fetch won't throw — treat send as success
-    fetch(SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
+        fetch(SHEET_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
 
-    setTimeout(() => {
-      btn.textContent = '✅ Pendaftaran Berjaya! Kami akan hubungi anda dalam 24 jam.';
-      btn.style.background = '#00A374';
-      inputs.forEach(input => { input.disabled = true; input.style.opacity = '0.5'; });
-    }, 1500);
-  }
+        setTimeout(function() {
+          btn.textContent = '✅ Pendaftaran Berjaya! Kami akan hubungi anda dalam 24 jam.';
+          btn.style.background = '#00A374';
+          inputs.forEach(function(input) { input.disabled = true; input.style.opacity = '0.5'; });
+        }, 1500);
+      });
+    }
+  });
 
   // Scroll animations
   const observer = new IntersectionObserver((entries) => {
