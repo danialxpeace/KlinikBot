@@ -60,7 +60,6 @@ nav {
   display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center;
 }
 @media(min-width:900px){ .hero-inner { grid-template-columns: 1.1fr 1fr; gap: 64px; } }
-
 .hero-tag {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--cream); border: 1px solid var(--border);
@@ -73,7 +72,6 @@ nav {
   animation: pulseDot 2s infinite;
 }
 @keyframes pulseDot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:0.6} }
-
 .hero h1 {
   font-weight: 800; font-size: clamp(32px, 4.5vw, 54px); line-height: 1.1; letter-spacing: -1.5px;
   margin-bottom: 20px; opacity: 0; animation: fadeUp 0.5s 0.2s ease forwards;
@@ -173,7 +171,6 @@ nav {
 }
 .wa-input-field { flex: 1; font-size: 12px; color: #999; background: #F0F0F0; border-radius: 20px; padding: 6px 12px; }
 .wa-send { width: 32px; height: 32px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; }
-
 .badge-float {
   position: absolute; background: white; border-radius: 14px; padding: 10px 14px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.12); display: flex; align-items: center; gap: 8px;
@@ -184,7 +181,6 @@ nav {
 .badge-float.right { right: -16px; top: 120px; animation-delay: 1.5s; }
 .badge-icon { font-size: 18px; }
 @keyframes floatBadge { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
-
 .b1{animation:bubblePop 0.3s 0.8s ease forwards}
 .b2{animation:bubblePop 0.3s 1.4s ease forwards}
 .b3{animation:bubblePop 0.3s 2.0s ease forwards}
@@ -192,20 +188,51 @@ nav {
 .b5{animation:bubblePop 0.3s 3.2s ease forwards}
 @keyframes bubblePop { from{opacity:0;transform:scale(0.9) translateY(6px)} to{opacity:1;transform:scale(1) translateY(0)} }
 
-/* PROBLEM STRIP */
+/* ── PROBLEM STRIP (NEW DESIGN) ── */
 .problem-strip {
-  background: #FEF3F2; border-top: 1px solid #FEE2E0; border-bottom: 1px solid #FEE2E0;
-  padding: 20px 24px;
+  padding: 40px 24px;
+  background: var(--off-white);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 .strip-inner {
   max-width: 1100px; margin: 0 auto;
-  display: flex; flex-direction: column; gap: 16px;
+  display: flex; flex-direction: column; gap: 12px;
 }
-@media(min-width:768px){ .strip-inner { flex-direction: row; align-items: center; justify-content: space-between; gap: 24px; } }
-.strip-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--red); white-space: nowrap; }
-.strip-stats { display: flex; gap: 24px; flex-wrap: wrap; }
-.strip-num { font-weight: 800; font-size: 28px; color: var(--red); line-height: 1; }
-.strip-desc { font-size: 11px; color: #7f3030; margin-top: 2px; }
+@media(min-width:768px){ .strip-inner { flex-direction: row; align-items: stretch; gap: 12px; } }
+.strip-stat {
+  flex: 1; border-radius: 20px; padding: 28px 24px;
+  display: flex; flex-direction: column;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: default;
+}
+.strip-stat:hover { transform: translateY(-5px); box-shadow: 0 20px 48px rgba(0,0,0,0.09); }
+.strip-stat:nth-child(1) { background: linear-gradient(145deg,#FFF1F0,#FFE0DC); border: 1.5px solid #FFCCC7; }
+.strip-stat:nth-child(2) { background: linear-gradient(145deg,#FFF7ED,#FFE9CC); border: 1.5px solid #FFD9A3; }
+.strip-stat:nth-child(3) { background: linear-gradient(145deg,#FFFBEB,#FEF3C0); border: 1.5px solid #FDE68A; }
+.strip-stat:nth-child(4) { background: linear-gradient(145deg,#F0FDF4,#DCFCE7); border: 1.5px solid #BBF7D0; }
+.strip-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;
+  padding: 4px 10px; border-radius: 100px; margin-bottom: 14px; width: fit-content;
+}
+.strip-stat:nth-child(1) .strip-tag { background: rgba(200,37,26,0.1);  color: #C8251A; }
+.strip-stat:nth-child(2) .strip-tag { background: rgba(180,83,9,0.1);   color: #B45309; }
+.strip-stat:nth-child(3) .strip-tag { background: rgba(146,64,14,0.1);  color: #92400E; }
+.strip-stat:nth-child(4) .strip-tag { background: rgba(22,101,52,0.12); color: #166534; }
+.strip-num {
+  font-weight: 900; font-size: 40px; line-height: 1; letter-spacing: -2px; margin-bottom: 8px;
+}
+.strip-stat:nth-child(1) .strip-num { color: #C8251A; }
+.strip-stat:nth-child(2) .strip-num { color: #B45309; }
+.strip-stat:nth-child(3) .strip-num { color: #92400E; }
+.strip-stat:nth-child(4) .strip-num { color: #166534; }
+.strip-desc { font-size: 13px; font-weight: 500; line-height: 1.5; }
+.strip-stat:nth-child(1) .strip-desc { color: #9B1C1C; }
+.strip-stat:nth-child(2) .strip-desc { color: #92400E; }
+.strip-stat:nth-child(3) .strip-desc { color: #78350F; }
+.strip-stat:nth-child(4) .strip-desc { color: #14532D; }
+/* ── END PROBLEM STRIP ── */
 
 /* SECTIONS */
 .section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
@@ -294,7 +321,6 @@ nav {
 .proof-inner .section-tag { color: var(--teal-light); }
 .proof-inner .section-tag::before { background: var(--teal-light); }
 .proof-inner .section-title { color: white; }
-
 .stats-row { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin: 48px 0; }
 @media(min-width:640px){ .stats-row { grid-template-columns: repeat(4,1fr); } }
 .stat-box {
@@ -303,7 +329,6 @@ nav {
 }
 .stat-big { font-weight: 800; font-size: 42px; color: white; line-height: 1; }
 .stat-small { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 6px; }
-
 .testimonials-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 48px; }
 @media(min-width:640px){ .testimonials-grid { grid-template-columns: repeat(3,1fr); } }
 .testi-card {
@@ -366,7 +391,6 @@ nav {
 .cta-points { list-style:none; display:flex; flex-direction:column; gap:12px; }
 .cta-points li { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:500; }
 .cta-points li span { color:var(--teal); font-size:18px; font-weight:800; }
-
 .form-card {
   background: white; border:1.5px solid var(--border); border-radius:24px; padding:32px 28px;
   box-shadow:0 8px 40px rgba(11,110,79,0.06);
@@ -404,10 +428,9 @@ footer p { font-size:13px; color:rgba(255,255,255,0.4); }
 footer a { color:rgba(255,255,255,0.5); text-decoration:none; }
 footer a:hover { color:var(--teal-light); }
 
-/* REVEAL — default visible, animate on scroll */
+/* REVEAL */
 .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.55s ease, transform 0.55s ease; }
 .reveal.visible { opacity:1 !important; transform:translateY(0) !important; }
-
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
 /* WHATSAPP FLOAT */
@@ -455,7 +478,6 @@ footer a:hover { color:var(--teal-light); }
         <p class="trust-text"><strong>Lebih 20 klinik</strong> sedang dalam waitlist</p>
       </div>
     </div>
-
     <div class="hero-visual">
       <div class="phone-scene">
         <div class="phone-glow"></div>
@@ -518,12 +540,25 @@ footer a:hover { color:var(--teal-light); }
 <!-- PROBLEM STRIP -->
 <div class="problem-strip">
   <div class="strip-inner">
-    <div class="strip-label">⚠️ Klinik anda rugi setiap minggu</div>
-    <div class="strip-stats">
-      <div><div class="strip-num">15–25%</div><div class="strip-desc">slot terbuang akibat no-show</div></div>
-      <div><div class="strip-num">3–4 jam</div><div class="strip-desc">staf jawab WhatsApp sehari</div></div>
-      <div><div class="strip-num">10 minit</div><div class="strip-desc">masa sabar pesakit tunggu reply</div></div>
-      <div><div class="strip-num">RM2k+</div><div class="strip-desc">kerugian purata seminggu</div></div>
+    <div class="strip-stat">
+      <div class="strip-tag">📵 No-Show</div>
+      <div class="strip-num">15–25%</div>
+      <div class="strip-desc">slot terbuang setiap minggu akibat pesakit tak hadir</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-tag">⏳ Masa Terbuang</div>
+      <div class="strip-num">3–4 jam</div>
+      <div class="strip-desc">staf jawab WhatsApp manual setiap hari</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-tag">😤 Kepuasan Rendah</div>
+      <div class="strip-num">10 minit</div>
+      <div class="strip-desc">masa maksimum pesakit sabar tunggu reply</div>
+    </div>
+    <div class="strip-stat">
+      <div class="strip-tag">💸 Kerugian</div>
+      <div class="strip-num">RM2k+</div>
+      <div class="strip-desc">purata kerugian klinik setiap minggu</div>
     </div>
   </div>
 </div>
@@ -637,63 +672,33 @@ footer a:hover { color:var(--teal-light); }
   </div>
 </div>
 
-<!-- PROOF / STATS + TESTIMONIALS -->
+<!-- PROOF -->
 <section class="proof-section">
   <div class="proof-inner">
     <div class="section-tag">Keputusan sebenar</div>
     <h2 class="section-title">Angka yang bercakap sendiri.</h2>
     <p style="color:rgba(255,255,255,0.65);font-size:17px;line-height:1.6;max-width:520px;margin-top:12px;">Berdasarkan data industri global dan pengalaman klinik-klinik yang telah menggunakan automasi WhatsApp.</p>
     <div class="stats-row">
-      <div class="stat-box reveal">
-        <div class="stat-big">-73%</div>
-        <div class="stat-small">Kadar no-show berkurang</div>
-      </div>
-      <div class="stat-box reveal">
-        <div class="stat-big">8 jam</div>
-        <div class="stat-small">Masa staf jimat setiap minggu</div>
-      </div>
-      <div class="stat-box reveal">
-        <div class="stat-big">&lt;5 saat</div>
-        <div class="stat-small">Masa bot balas mesej pesakit</div>
-      </div>
-      <div class="stat-box reveal">
-        <div class="stat-big">30 hari</div>
-        <div class="stat-small">Trial percuma, tanpa risiko</div>
-      </div>
+      <div class="stat-box reveal"><div class="stat-big">-73%</div><div class="stat-small">Kadar no-show berkurang</div></div>
+      <div class="stat-box reveal"><div class="stat-big">8 jam</div><div class="stat-small">Masa staf jimat setiap minggu</div></div>
+      <div class="stat-box reveal"><div class="stat-big">&lt;5 saat</div><div class="stat-small">Masa bot balas mesej pesakit</div></div>
+      <div class="stat-box reveal"><div class="stat-big">30 hari</div><div class="stat-small">Trial percuma, tanpa risiko</div></div>
     </div>
     <div class="testimonials-grid">
       <div class="testi-card reveal">
         <div class="stars">★★★★★</div>
         <blockquote>"Staf saya dulu habiskan 3–4 jam sehari jawab WhatsApp je. Sekarang bot buat semua tu. No-show pun turun lebih 60%. Sangat berbaloi dengan harganya."</blockquote>
-        <div class="testi-author">
-          <div class="testi-av">DR</div>
-          <div>
-            <div class="testi-name">Dr. R.</div>
-            <div class="testi-role">Klinik Swasta, Pulau Pinang · Beta Tester</div>
-          </div>
-        </div>
+        <div class="testi-author"><div class="testi-av">DR</div><div><div class="testi-name">Dr. R.</div><div class="testi-role">Klinik Swasta, Pulau Pinang · Beta Tester</div></div></div>
       </div>
       <div class="testi-card reveal">
         <div class="stars">★★★★★</div>
         <blockquote>"Setup dalam masa sehari sahaja. Team diorang buat semua — saya cuma test dan approve. Pesakit suka sangat sebab reply cepat walaupun tengah malam."</blockquote>
-        <div class="testi-author">
-          <div class="testi-av">DR</div>
-          <div>
-            <div class="testi-name">Dr. H.</div>
-            <div class="testi-role">Klinik Gigi, Kuala Lumpur · Beta Tester</div>
-          </div>
-        </div>
+        <div class="testi-author"><div class="testi-av">DR</div><div><div class="testi-name">Dr. H.</div><div class="testi-role">Klinik Gigi, Kuala Lumpur · Beta Tester</div></div></div>
       </div>
       <div class="testi-card reveal">
         <div class="stars">★★★★★</div>
         <blockquote>"RM397 sebulan tapi jimat lebih RM2,000 dari no-show yang berkurang. ROI positif dalam bulan pertama lagi. Tak rugi langsung untuk cuba."</blockquote>
-        <div class="testi-author">
-          <div class="testi-av">DR</div>
-          <div>
-            <div class="testi-name">Dr. F.</div>
-            <div class="testi-role">Klinik Keluarga, Johor Bahru · Beta Tester</div>
-          </div>
-        </div>
+        <div class="testi-author"><div class="testi-av">DR</div><div><div class="testi-name">Dr. F.</div><div class="testi-role">Klinik Keluarga, Johor Bahru · Beta Tester</div></div></div>
       </div>
     </div>
   </div>
@@ -761,7 +766,7 @@ footer a:hover { color:var(--teal-light); }
   </div>
 </section>
 
-<!-- FORM / CTA -->
+<!-- FORM -->
 <section class="cta-section" id="daftar">
   <div class="cta-inner">
     <div class="cta-left">
@@ -797,34 +802,24 @@ footer a:hover { color:var(--teal-light); }
   </div>
 </footer>
 
-<!-- WhatsApp Float -->
 <a href="https://wa.me/60112345678" class="wa-float" target="_blank" title="Hubungi kami di WhatsApp">💬</a>
 
 <script>
-// ── SCROLL REVEAL ────────────────────────────────────────────────
 (function() {
   var items = document.querySelectorAll('.reveal');
   if (!items.length) return;
-
   var io = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        io.unobserve(entry.target);
-      }
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
   items.forEach(function(el) { io.observe(el); });
 })();
 
-// ── FORM SUBMIT ──────────────────────────────────────────────────
 var SHEET_URL = 'https://script.google.com/macros/s/AKfycbyjsDpk6UV2Gz_WEpSThgOH56v4h5TAG8UFrVSkglRQyPvVpR2P2YPztTTADtt_5wk/exec';
-
 document.getElementById('submitBtn').onclick = function() {
   var fields = ['f-nama','f-klinik','f-wa','f-negeri'];
   var valid = true;
-
   fields.forEach(function(id) {
     var el = document.getElementById(id);
     if (!el.value.trim()) {
@@ -835,14 +830,11 @@ document.getElementById('submitBtn').onclick = function() {
     }
   });
   if (!valid) return;
-
   var btn = document.getElementById('submitBtn');
   btn.textContent = '⏳ Menghantar...';
   btn.disabled = true;
-
   fetch(SHEET_URL, {
-    method: 'POST',
-    mode: 'no-cors',
+    method: 'POST', mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       nama:    document.getElementById('f-nama').value.trim(),
@@ -851,15 +843,10 @@ document.getElementById('submitBtn').onclick = function() {
       negeri:  document.getElementById('f-negeri').value.trim()
     })
   });
-
   setTimeout(function() {
     btn.textContent = '✅ Berjaya! Kami hubungi anda dalam 24 jam.';
     btn.style.background = '#0B6E4F';
-    fields.forEach(function(id){
-      var e = document.getElementById(id);
-      e.disabled = true;
-      e.style.opacity = '0.5';
-    });
+    fields.forEach(function(id){ var e=document.getElementById(id); e.disabled=true; e.style.opacity='0.5'; });
   }, 1500);
 };
 </script>
