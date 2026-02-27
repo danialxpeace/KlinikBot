@@ -31,7 +31,7 @@ nav {
   background: rgba(255,255,255,0.92); backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
-.logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 22px; color: var(--teal); }
+.logo { font-weight: 800; font-size: 22px; color: var(--teal); }
 .logo span { color: var(--teal-light); }
 .nav-right { display: flex; align-items: center; gap: 12px; }
 .nav-link { font-size: 14px; color: var(--text-mid); text-decoration: none; font-weight: 500; display: none; }
@@ -75,8 +75,7 @@ nav {
 @keyframes pulseDot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:0.6} }
 
 .hero h1 {
-  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
-  font-size: clamp(32px, 4.5vw, 54px); line-height: 1.1; letter-spacing: -1.5px;
+  font-weight: 800; font-size: clamp(32px, 4.5vw, 54px); line-height: 1.1; letter-spacing: -1.5px;
   margin-bottom: 20px; opacity: 0; animation: fadeUp 0.5s 0.2s ease forwards;
 }
 .hero h1 em { font-style: normal; color: var(--teal-light); font-weight: 900; }
@@ -203,9 +202,9 @@ nav {
   display: flex; flex-direction: column; gap: 16px;
 }
 @media(min-width:768px){ .strip-inner { flex-direction: row; align-items: center; justify-content: space-between; gap: 24px; } }
-.strip-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--red); }
+.strip-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--red); white-space: nowrap; }
 .strip-stats { display: flex; gap: 24px; flex-wrap: wrap; }
-.strip-num { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 28px; color: var(--red); line-height: 1; }
+.strip-num { font-weight: 800; font-size: 28px; color: var(--red); line-height: 1; }
 .strip-desc { font-size: 11px; color: #7f3030; margin-top: 2px; }
 
 /* SECTIONS */
@@ -217,8 +216,7 @@ nav {
 }
 .section-tag::before { content:''; width:20px; height:2px; background:var(--teal-light); border-radius:2px; }
 .section-title {
-  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800;
-  font-size: clamp(26px, 3.5vw, 42px); line-height: 1.15; letter-spacing: -0.8px;
+  font-weight: 800; font-size: clamp(26px, 3.5vw, 42px); line-height: 1.15; letter-spacing: -0.8px;
   margin-bottom: 14px;
 }
 .section-sub { font-size: 17px; color: var(--text-mid); line-height: 1.6; max-width: 560px; }
@@ -264,7 +262,7 @@ nav {
 .step-num {
   width: 44px; height: 44px; border-radius: 14px; background: var(--teal);
   color: white; display: flex; align-items: center; justify-content: center;
-  font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 22px; margin-bottom: 18px;
+  font-weight: 800; font-size: 22px; margin-bottom: 18px;
 }
 .step-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
 .step-card p { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
@@ -303,7 +301,7 @@ nav {
   background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
   border-radius: 20px; padding: 24px 20px; text-align: center;
 }
-.stat-big { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 42px; color: white; line-height: 1; }
+.stat-big { font-weight: 800; font-size: 42px; color: white; line-height: 1; }
 .stat-small { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 6px; }
 
 .testimonials-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 48px; }
@@ -331,17 +329,17 @@ nav {
 }
 .price-card:hover { transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.06); }
 .price-card.hero-plan { border-color: var(--teal); background: var(--teal); }
-.price-card.hero-plan * { color: white; }
 .price-badge {
-  display: inline-block; background: var(--teal-light); color: var(--teal);
+  display: inline-block; background: var(--teal-light); color: white;
   padding: 4px 12px; border-radius: 100px;
   font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;
 }
-.hero-plan .price-badge { background: rgba(255,255,255,0.2); color: white; }
+.hero-plan .price-badge { background: rgba(255,255,255,0.2); }
 .price-tier { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); margin-bottom: 12px; }
 .hero-plan .price-tier { color: rgba(255,255,255,0.6); }
-.price-num { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size: 52px; line-height: 1; color: var(--text); }
-.price-num sub { font-size: 18px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 400; color: var(--text-light); }
+.price-num { font-weight: 800; font-size: 52px; line-height: 1; color: var(--text); }
+.price-num sub { font-size: 18px; font-weight: 400; color: var(--text-light); }
+.hero-plan .price-num { color: white; }
 .hero-plan .price-num sub { color: rgba(255,255,255,0.6); }
 .price-period { font-size: 13px; color: var(--text-light); margin-bottom: 6px; }
 .price-setup { font-size: 12px; color: var(--text-light); margin-bottom: 24px; }
@@ -363,7 +361,7 @@ nav {
 .cta-section { background: var(--off-white); border-top:1px solid var(--border); padding: 80px 24px; }
 .cta-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr; gap:48px; align-items:start; }
 @media(min-width:768px){ .cta-inner { grid-template-columns:1fr 1fr; gap:64px; } }
-.cta-left h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size:clamp(26px,3.5vw,42px); line-height:1.15; letter-spacing:-0.8px; margin-bottom:16px; }
+.cta-left h2 { font-weight: 800; font-size:clamp(26px,3.5vw,42px); line-height:1.15; letter-spacing:-0.8px; margin-bottom:16px; }
 .cta-left p { font-size:16px; color:var(--text-mid); line-height:1.65; margin-bottom:28px; }
 .cta-points { list-style:none; display:flex; flex-direction:column; gap:12px; }
 .cta-points li { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:500; }
@@ -400,13 +398,28 @@ footer { background:var(--text); padding:40px 24px; }
   display:flex; flex-direction:column; gap:12px; align-items:center; text-align:center;
 }
 @media(min-width:640px){ .footer-inner { flex-direction:row; justify-content:space-between; text-align:left; } }
-.footer-logo { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 800; font-size:20px; color:white; }
+.footer-logo { font-weight: 800; font-size:20px; color:white; }
 .footer-logo span { color:var(--teal-light); }
 footer p { font-size:13px; color:rgba(255,255,255,0.4); }
+footer a { color:rgba(255,255,255,0.5); text-decoration:none; }
+footer a:hover { color:var(--teal-light); }
+
+/* REVEAL — default visible, animate on scroll */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity 0.55s ease, transform 0.55s ease; }
+.reveal.visible { opacity:1 !important; transform:translateY(0) !important; }
 
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.5s ease, transform 0.5s ease; }
-.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* WHATSAPP FLOAT */
+.wa-float {
+  position: fixed; bottom: 24px; right: 24px; z-index: 998;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; color: white; font-size: 26px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 32px rgba(37,211,102,0.4);
+  text-decoration: none; transition: all 0.2s;
+}
+.wa-float:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(37,211,102,0.5); }
 </style>
 </head>
 <body>
@@ -415,10 +428,12 @@ footer p { font-size:13px; color:rgba(255,255,255,0.4); }
   <div class="logo">Klinik<span>Bot</span></div>
   <div class="nav-right">
     <a href="#harga" class="nav-link">Harga</a>
+    <a href="#cara-kerja" class="nav-link">Cara Kerja</a>
     <a href="#daftar" class="nav-btn">Cuba Percuma →</a>
   </div>
 </nav>
 
+<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-inner">
@@ -500,6 +515,7 @@ footer p { font-size:13px; color:rgba(255,255,255,0.4); }
   </div>
 </section>
 
+<!-- PROBLEM STRIP -->
 <div class="problem-strip">
   <div class="strip-inner">
     <div class="strip-label">⚠️ Klinik anda rugi setiap minggu</div>
@@ -512,6 +528,7 @@ footer p { font-size:13px; color:rgba(255,255,255,0.4); }
   </div>
 </div>
 
+<!-- PAIN SECTION -->
 <div class="section">
   <div class="section-tag">Masalah sebenar</div>
   <h2 class="section-title">Masih buat semua<br>ini secara manual?</h2>
@@ -520,101 +537,186 @@ footer p { font-size:13px; color:rgba(255,255,255,0.4); }
     <div class="pain-card reveal">
       <span class="pain-emoji">📵</span>
       <h3>Pesakit tak hadir tanpa khabar</h3>
-      <p>Slot kosong last minute. Masa buang, pendapatan hilang. Tiada sistem reminder bermakna tiada kawalan.</p>
+      <p>Slot kosong last minute. Masa terbuang, pendapatan hilang. Tiada sistem reminder bermakna tiada kawalan sama sekali.</p>
       <div class="pain-badge">⚡ Rugi RM800–2,000/minggu</div>
     </div>
     <div class="pain-card reveal">
       <span class="pain-emoji">😰</span>
       <h3>Staf penat jawab soalan berulang</h3>
-      <p>"Waktu buka pukul berapa?" "Ada parking tak?" — soalan sama setiap hari, makan masa staf berjam-jam.</p>
+      <p>"Waktu buka pukul berapa?" "Ada parking tak?" — soalan sama setiap hari, makan masa staf berjam-jam tanpa nilai tambah.</p>
       <div class="pain-badge">⚡ Buang 20+ jam/minggu</div>
     </div>
     <div class="pain-card reveal">
       <span class="pain-emoji">😤</span>
       <h3>Pesakit pergi ke klinik lain</h3>
-      <p>Lambat balas WhatsApp = pesakit hilang kepercayaan. Mereka Google klinik lain dan terus pergi sana.</p>
+      <p>Lambat balas WhatsApp = pesakit hilang kepercayaan. Mereka Google klinik lain dan terus pergi ke sana tanpa beritahu anda.</p>
       <div class="pain-badge">⚡ Hilang 5–10 pesakit/bulan</div>
     </div>
   </div>
 </div>
 
+<!-- HOW IT WORKS -->
 <div class="how-section" id="cara-kerja">
   <div class="how-inner">
     <div class="section-tag">Cara ia berfungsi</div>
     <h2 class="section-title">Setup hari ini.<br>Automate selama-lamanya.</h2>
+    <p class="section-sub">Proses mudah 4 langkah — kami buat hampir semua kerja untuk anda.</p>
     <div class="steps-grid">
-      <div class="step-card reveal"><div class="step-num">1</div><h3>Kami setup untuk anda</h3><p>Dalam 24 jam, semua dah ready. Anda tidak perlu tahu coding atau teknologi.</p></div>
-      <div class="step-card reveal"><div class="step-num">2</div><h3>Bot jawab 24/7</h3><p>Pesakit tanya waktu malam atau hujung minggu — bot jawab dalam 5 saat.</p></div>
-      <div class="step-card reveal"><div class="step-num">3</div><h3>Booking & reminder auto</h3><p>Pesakit buat appointment sendiri. Reminder hantar auto 24j dan 1j sebelum.</p></div>
-      <div class="step-card reveal"><div class="step-num">4</div><h3>Pantau dashboard</h3><p>Semua data conversation, appointment dan analytics di hujung jari anda.</p></div>
+      <div class="step-card reveal">
+        <div class="step-num">1</div>
+        <h3>Kami setup untuk anda</h3>
+        <p>Dalam 24 jam, semua dah siap dan berjalan. Anda tidak perlu tahu coding atau teknologi langsung.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">2</div>
+        <h3>Bot jawab pesakit 24/7</h3>
+        <p>Pesakit tanya waktu malam, hujung minggu atau cuti umum — bot jawab dalam masa kurang 5 saat.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">3</div>
+        <h3>Booking & reminder auto</h3>
+        <p>Pesakit buat appointment sendiri via WhatsApp. Reminder dihantar auto 24 jam dan 1 jam sebelum masa.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-num">4</div>
+        <h3>Pantau dari dashboard</h3>
+        <p>Semua data conversation, appointment, dan analytics ada di satu tempat. Pantau prestasi klinik bila-bila masa.</p>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- FEATURES -->
 <div class="section">
   <div class="section-tag">Apa yang anda dapat</div>
   <h2 class="section-title">Lengkap. Mudah.<br>Berkesan.</h2>
+  <p class="section-sub">Semua yang klinik anda perlukan dalam satu platform, direka khas untuk Malaysia.</p>
   <div class="features-grid">
     <div class="feat-card big reveal">
       <div class="feat-icon">🤖</div>
       <div class="feat-text">
         <h3>AI yang faham BM, English & Manglish</h3>
-        <p>Dilatih khas untuk pesakit Malaysia. Balas terasa natural, bukan macam robot. Pesakit rasa selesa berkomunikasi.</p>
+        <p>Dilatih khas untuk pesakit Malaysia. Balas terasa natural dan mesra, bukan macam robot. Pesakit rasa selesa berkomunikasi seperti bercakap dengan staf sebenar.</p>
       </div>
     </div>
-    <div class="feat-card reveal"><div class="feat-icon">📅</div><div class="feat-text"><h3>Auto Booking & Jadual</h3><p>Pesakit buat, ubah atau batal appointment sendiri. Sync ke Google Calendar klinik anda.</p></div></div>
-    <div class="feat-card reveal"><div class="feat-icon">🔔</div><div class="feat-text"><h3>Reminder Berlapis</h3><p>Auto hantar 24 jam, 2 jam dan 30 minit sebelum appointment. No-show turun drastik.</p></div></div>
-    <div class="feat-card reveal"><div class="feat-icon">💬</div><div class="feat-text"><h3>FAQ Auto-Reply</h3><p>Harga, waktu operasi, lokasi — semua dijawab automatik tanpa staf perlu interven.</p></div></div>
-    <div class="feat-card reveal"><div class="feat-icon">📊</div><div class="feat-text"><h3>Dashboard Analytics</h3><p>Pantau conversation, appointment dan kadar no-show setiap hari dari satu tempat.</p></div></div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">📅</div>
+      <div class="feat-text">
+        <h3>Auto Booking & Jadual</h3>
+        <p>Pesakit buat, ubah atau batal appointment sendiri via WhatsApp tanpa perlu telefon. Sync terus ke Google Calendar klinik anda secara automatik.</p>
+      </div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">🔔</div>
+      <div class="feat-text">
+        <h3>Reminder Berlapis-lapis</h3>
+        <p>Auto hantar reminder 24 jam, 2 jam dan 30 minit sebelum appointment. Kadar no-show turun drastik — klinik anda tidak lagi rugi slot kosong.</p>
+      </div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">💬</div>
+      <div class="feat-text">
+        <h3>FAQ Auto-Reply Pintar</h3>
+        <p>Harga konsultasi, waktu operasi, lokasi, insurance panel — semua dijawab automatik tanpa staf perlu campur tangan langsung.</p>
+      </div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">📊</div>
+      <div class="feat-text">
+        <h3>Dashboard Analytics</h3>
+        <p>Pantau bilangan conversation, appointment, kadar no-show, dan trend pesakit setiap hari dari satu dashboard yang mudah difahami.</p>
+      </div>
+    </div>
+    <div class="feat-card reveal">
+      <div class="feat-icon">📣</div>
+      <div class="feat-text">
+        <h3>Broadcast & Follow-up</h3>
+        <p>Hantar blast message kepada semua pesakit — promosi, cuti klinik, atau peringatan semak kesihatan. Tingkatkan kadar kunjungan balik pesakit lama.</p>
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- PROOF / STATS + TESTIMONIALS -->
 <section class="proof-section">
   <div class="proof-inner">
     <div class="section-tag">Keputusan sebenar</div>
     <h2 class="section-title">Angka yang bercakap sendiri.</h2>
+    <p style="color:rgba(255,255,255,0.65);font-size:17px;line-height:1.6;max-width:520px;margin-top:12px;">Berdasarkan data industri global dan pengalaman klinik-klinik yang telah menggunakan automasi WhatsApp.</p>
     <div class="stats-row">
-      <div class="stat-box reveal"><div class="stat-big">-73%</div><div class="stat-small">Kadar no-show berkurang</div></div>
-      <div class="stat-box reveal"><div class="stat-big">8 jam</div><div class="stat-small">Masa staf jimat setiap minggu</div></div>
-      <div class="stat-box reveal"><div class="stat-big">5 saat</div><div class="stat-small">Masa bot balas mesej pesakit</div></div>
-      <div class="stat-box reveal"><div class="stat-big">30 hari</div><div class="stat-small">Trial percuma, no credit card</div></div>
+      <div class="stat-box reveal">
+        <div class="stat-big">-73%</div>
+        <div class="stat-small">Kadar no-show berkurang</div>
+      </div>
+      <div class="stat-box reveal">
+        <div class="stat-big">8 jam</div>
+        <div class="stat-small">Masa staf jimat setiap minggu</div>
+      </div>
+      <div class="stat-box reveal">
+        <div class="stat-big">&lt;5 saat</div>
+        <div class="stat-small">Masa bot balas mesej pesakit</div>
+      </div>
+      <div class="stat-box reveal">
+        <div class="stat-big">30 hari</div>
+        <div class="stat-small">Trial percuma, tanpa risiko</div>
+      </div>
     </div>
     <div class="testimonials-grid">
       <div class="testi-card reveal">
         <div class="stars">★★★★★</div>
-        <blockquote>"Staf saya dulu habiskan 3–4 jam sehari jawab WhatsApp je. Sekarang bot buat semua tu. No-show pun turun 60%. Sangat berbaloi."</blockquote>
-        <div class="testi-author"><div class="testi-av">DR</div><div><div class="testi-name">Dr. R.</div><div class="testi-role">Klinik Swasta, Pulau Pinang</div></div></div>
+        <blockquote>"Staf saya dulu habiskan 3–4 jam sehari jawab WhatsApp je. Sekarang bot buat semua tu. No-show pun turun lebih 60%. Sangat berbaloi dengan harganya."</blockquote>
+        <div class="testi-author">
+          <div class="testi-av">DR</div>
+          <div>
+            <div class="testi-name">Dr. R.</div>
+            <div class="testi-role">Klinik Swasta, Pulau Pinang · Beta Tester</div>
+          </div>
+        </div>
       </div>
       <div class="testi-card reveal">
         <div class="stars">★★★★★</div>
-        <blockquote>"Setup dalam masa sehari sahaja. Team dorang buat semua — saya cuma test dan approve. Pesakit suka sebab reply cepat 24 jam."</blockquote>
-        <div class="testi-author"><div class="testi-av">DR</div><div><div class="testi-name">Dr. H.</div><div class="testi-role">Klinik Gigi, Kuala Lumpur</div></div></div>
+        <blockquote>"Setup dalam masa sehari sahaja. Team diorang buat semua — saya cuma test dan approve. Pesakit suka sangat sebab reply cepat walaupun tengah malam."</blockquote>
+        <div class="testi-author">
+          <div class="testi-av">DR</div>
+          <div>
+            <div class="testi-name">Dr. H.</div>
+            <div class="testi-role">Klinik Gigi, Kuala Lumpur · Beta Tester</div>
+          </div>
+        </div>
       </div>
       <div class="testi-card reveal">
         <div class="stars">★★★★★</div>
-        <blockquote>"RM397 sebulan tapi jimat lebih RM2,000 dari no-show yang berkurang. ROI dalam bulan pertama lagi. Tak rugi cuba."</blockquote>
-        <div class="testi-author"><div class="testi-av">DR</div><div><div class="testi-name">Dr. F.</div><div class="testi-role">Klinik Keluarga, Johor Bahru</div></div></div>
+        <blockquote>"RM397 sebulan tapi jimat lebih RM2,000 dari no-show yang berkurang. ROI positif dalam bulan pertama lagi. Tak rugi langsung untuk cuba."</blockquote>
+        <div class="testi-author">
+          <div class="testi-av">DR</div>
+          <div>
+            <div class="testi-name">Dr. F.</div>
+            <div class="testi-role">Klinik Keluarga, Johor Bahru · Beta Tester</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- PRICING -->
 <section class="pricing-section" id="harga">
   <div class="pricing-inner">
     <div class="section-tag">Harga</div>
     <h2 class="section-title">Pilih plan yang sesuai.<br>Batal bila-bila masa.</h2>
-    <p class="section-sub">Semua plan ada trial percuma 30 hari. Tiada kontrak. Tiada credit card diperlukan.</p>
+    <p class="section-sub">Semua plan ada trial percuma 30 hari. Tiada kontrak. Tiada credit card diperlukan untuk mulakan.</p>
     <div class="pricing-grid">
       <div class="price-card reveal">
         <div class="price-tier">Starter</div>
         <div class="price-num">RM197<sub>/bln</sub></div>
-        <div class="price-period">+ RM500 setup (sekali sahaja)</div>
+        <div class="price-period">Jimat sehingga RM800/minggu</div>
+        <div class="price-setup">+ RM500 setup (sekali sahaja)</div>
         <div class="price-divider"></div>
         <ul class="price-list">
           <li>1 nombor WhatsApp</li>
-          <li>Auto-reply FAQ asas</li>
-          <li>Booking appointment</li>
-          <li>Reminder automatik</li>
+          <li>Auto-reply FAQ asas (BM + EN)</li>
+          <li>Booking appointment via chat</li>
+          <li>Reminder automatik 24j sebelum</li>
           <li>500 conversation/bulan</li>
           <li>Support via WhatsApp</li>
         </ul>
@@ -624,31 +726,33 @@ footer p { font-size:13px; color:rgba(255,255,255,0.4); }
         <div class="price-badge">⭐ Paling Popular</div>
         <div class="price-tier">Growth</div>
         <div class="price-num">RM397<sub>/bln</sub></div>
-        <div class="price-period">+ RM800 setup (sekali sahaja)</div>
+        <div class="price-period">ROI positif dalam bulan pertama</div>
+        <div class="price-setup">+ RM800 setup (sekali sahaja)</div>
         <div class="price-divider"></div>
         <ul class="price-list">
           <li>2 nombor WhatsApp</li>
           <li>AI replies BM + EN + Manglish</li>
-          <li>Booking + follow-up auto</li>
-          <li>Reminder pelbagai peringkat</li>
+          <li>Booking + follow-up automatik</li>
+          <li>Reminder 24j, 2j & 30min sebelum</li>
           <li>2,000 conversation/bulan</li>
           <li>Dashboard analytics</li>
-          <li>Priority support</li>
+          <li>Priority support 7 hari seminggu</li>
         </ul>
         <a href="#daftar" class="price-cta price-cta-filled">Mulakan Trial Percuma</a>
       </div>
       <div class="price-card reveal">
         <div class="price-tier">Pro</div>
         <div class="price-num">RM797<sub>/bln</sub></div>
-        <div class="price-period">+ RM1,500 setup (sekali sahaja)</div>
+        <div class="price-period">Untuk klinik besar & multi-cawangan</div>
+        <div class="price-setup">+ RM1,500 setup (sekali sahaja)</div>
         <div class="price-divider"></div>
         <ul class="price-list">
           <li>Unlimited nombor WhatsApp</li>
-          <li>AI custom untuk klinik anda</li>
+          <li>AI custom dilatih untuk klinik anda</li>
           <li>CRM pesakit asas</li>
-          <li>Broadcast blast message</li>
+          <li>Broadcast blast message ke semua pesakit</li>
           <li>Unlimited conversation</li>
-          <li>Laporan bulanan</li>
+          <li>Laporan bulanan terperinci</li>
           <li>Dedicated account manager</li>
         </ul>
         <a href="#daftar" class="price-cta price-cta-outline">Mulakan Trial Percuma</a>
@@ -657,23 +761,24 @@ footer p { font-size:13px; color:rgba(255,255,255,0.4); }
   </div>
 </section>
 
+<!-- FORM / CTA -->
 <section class="cta-section" id="daftar">
   <div class="cta-inner">
     <div class="cta-left">
       <div class="section-tag">Mulakan hari ini</div>
       <h2>Klinik anda layak dapat yang lebih baik.</h2>
-      <p>Setiap hari tanpa automasi adalah hari pesakit lari, staf tertekan, dan duit tertinggal di atas meja. Ambil langkah pertama sekarang.</p>
+      <p>Setiap hari tanpa automasi adalah hari pesakit lari, staf tertekan, dan duit tertinggal di atas meja. Ambil langkah pertama sekarang — percuma untuk 30 hari.</p>
       <ul class="cta-points">
         <li><span>✓</span> Setup percuma — kami buat semua untuk anda</li>
-        <li><span>✓</span> 30 hari trial tanpa risiko</li>
+        <li><span>✓</span> 30 hari trial tanpa sebarang risiko</li>
         <li><span>✓</span> Tiada kontrak, batal bila-bila masa</li>
-        <li><span>✓</span> Support dalam Bahasa Malaysia</li>
+        <li><span>✓</span> Support sepenuhnya dalam Bahasa Malaysia</li>
         <li><span>✓</span> Kami hubungi dalam masa 24 jam</li>
       </ul>
     </div>
     <div class="form-card reveal">
       <h3>Daftar Trial Percuma 30 Hari</h3>
-      <p>Kami akan hubungi anda dalam masa 24 jam untuk setup.</p>
+      <p>Kami akan hubungi anda dalam masa 24 jam untuk mulakan setup.</p>
       <div class="form-group"><label>Nama Doktor / Pengurus Klinik</label><input type="text" id="f-nama" placeholder="Dr. Ahmad bin Abdullah"></div>
       <div class="form-group"><label>Nama Klinik</label><input type="text" id="f-klinik" placeholder="Klinik Dr. Ahmad"></div>
       <div class="form-group"><label>Nombor WhatsApp</label><input type="tel" id="f-wa" placeholder="011-2345 6789"></div>
@@ -688,48 +793,75 @@ footer p { font-size:13px; color:rgba(255,255,255,0.4); }
   <div class="footer-inner">
     <div class="footer-logo">Klinik<span>Bot</span></div>
     <p>© 2025 KlinikBot. Dibuat dengan ❤️ di Malaysia.</p>
-    <p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="92faf7fefefdd2f9fefbfcfbf9f0fde6bcffeb">[email&#160;protected]</a> · +60 11-XXXX XXXX</p>
+    <p><a href="mailto:hello@klinikbot.my">hello@klinikbot.my</a> · <a href="tel:+60112345678">+60 11-XXXX XXXX</a></p>
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<!-- WhatsApp Float -->
+<a href="https://wa.me/60112345678" class="wa-float" target="_blank" title="Hubungi kami di WhatsApp">💬</a>
+
+<script>
+// ── SCROLL REVEAL ────────────────────────────────────────────────
+(function() {
+  var items = document.querySelectorAll('.reveal');
+  if (!items.length) return;
+
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  items.forEach(function(el) { io.observe(el); });
+})();
+
+// ── FORM SUBMIT ──────────────────────────────────────────────────
 var SHEET_URL = 'https://script.google.com/macros/s/AKfycbyjsDpk6UV2Gz_WEpSThgOH56v4h5TAG8UFrVSkglRQyPvVpR2P2YPztTTADtt_5wk/exec';
 
-var btn = document.getElementById('submitBtn');
-btn.onclick = function() {
-  var nama   = document.getElementById('f-nama').value.trim();
-  var klinik = document.getElementById('f-klinik').value.trim();
-  var wa     = document.getElementById('f-wa').value.trim();
-  var negeri = document.getElementById('f-negeri').value.trim();
-  var ids    = ['f-nama','f-klinik','f-wa','f-negeri'];
-  var ok     = true;
+document.getElementById('submitBtn').onclick = function() {
+  var fields = ['f-nama','f-klinik','f-wa','f-negeri'];
+  var valid = true;
 
-  ids.forEach(function(id) {
+  fields.forEach(function(id) {
     var el = document.getElementById(id);
     if (!el.value.trim()) {
-      ok = false;
+      valid = false;
       el.style.borderColor = '#E8372A';
-      el.style.boxShadow   = '0 0 0 3px rgba(232,55,42,0.1)';
+      el.style.boxShadow = '0 0 0 3px rgba(232,55,42,0.1)';
       setTimeout(function(){ el.style.borderColor=''; el.style.boxShadow=''; }, 2500);
     }
   });
-  if (!ok) return;
+  if (!valid) return;
 
+  var btn = document.getElementById('submitBtn');
   btn.textContent = '⏳ Menghantar...';
   btn.disabled = true;
 
   fetch(SHEET_URL, {
-    method: 'POST', mode: 'no-cors',
+    method: 'POST',
+    mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ nama:nama, klinik:klinik, whatsapp:wa, negeri:negeri })
+    body: JSON.stringify({
+      nama:    document.getElementById('f-nama').value.trim(),
+      klinik:  document.getElementById('f-klinik').value.trim(),
+      whatsapp:document.getElementById('f-wa').value.trim(),
+      negeri:  document.getElementById('f-negeri').value.trim()
+    })
   });
 
   setTimeout(function() {
     btn.textContent = '✅ Berjaya! Kami hubungi anda dalam 24 jam.';
     btn.style.background = '#0B6E4F';
-    ids.forEach(function(id){ var e=document.getElementById(id); e.disabled=true; e.style.opacity='0.5'; });
+    fields.forEach(function(id){
+      var e = document.getElementById(id);
+      e.disabled = true;
+      e.style.opacity = '0.5';
+    });
   }, 1500);
 };
-
-// Scroll reveal
-var obs = new IntersectionObserver(function(ent
+</script>
+</body>
+</html>
