@@ -858,4 +858,11 @@ document.getElementById('submitBtn').onclick = function() {
     })
   });
   setTimeout(function() {
-    btn.textContent
+    btn.textContent = '✅ Berjaya! Kami hubungi anda dalam 24 jam.';
+    btn.style.background = '#0B6E4F';
+    fields.forEach(function(id){ var e=document.getElementById(id); e.disabled=true; e.style.opacity='0.5'; });
+  }, 1500);
+};
+</script>
+</body>
+</html>
