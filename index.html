@@ -429,20 +429,12 @@ footer a { color:rgba(255,255,255,0.5); text-decoration:none; }
 footer a:hover { color:var(--teal-light); }
 
 /* REVEAL */
-.reveal { opacity:0; transform:translateY(28px); transition:opacity 0.55s ease, transform 0.55s ease; }
-.reveal.visible { opacity:1 !important; transform:translateY(0) !important; }
+.reveal { opacity:1; transform:translateY(0); transition:opacity 0.55s ease, transform 0.55s ease; }
+.reveal.hidden { opacity:0; transform:translateY(28px); }
+.reveal.visible { opacity:1; transform:translateY(0); }
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
-/* WHATSAPP FLOAT */
-.wa-float {
-  position: fixed; bottom: 24px; right: 24px; z-index: 998;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: #25D366; color: white; font-size: 26px;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 8px 32px rgba(37,211,102,0.4);
-  text-decoration: none; transition: all 0.2s;
-}
-.wa-float:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(37,211,102,0.5); }
+
 </style>
 </head>
 <body>
@@ -798,21 +790,30 @@ footer a:hover { color:var(--teal-light); }
   <div class="footer-inner">
     <div class="footer-logo">Klinik<span>Bot</span></div>
     <p>© 2025 KlinikBot. Dibuat dengan ❤️ di Malaysia.</p>
-    <p><a href="mailto:hello@klinikbot.my">hello@klinikbot.my</a> · <a href="tel:+60112345678">+60 11-XXXX XXXX</a></p>
+    <p><a href="/cdn-cgi/l/email-protection#d6beb3babab996bdbabfb8bfbdb4b9a2f8bbaf"><span class="__cf_email__" data-cfemail="e088858c8c8fa08b8c898e898b828f94ce8d99">[email&#160;protected]</span></a> · <a href="tel:+60112345678">+60 11-XXXX XXXX</a></p>
   </div>
 </footer>
 
-<a href="https://wa.me/60112345678" class="wa-float" target="_blank" title="Hubungi kami di WhatsApp">💬</a>
 
-<script>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function() {
   var items = document.querySelectorAll('.reveal');
   if (!items.length) return;
+
+  // Add hidden class first so animation works
+  items.forEach(function(el) { el.classList.add('hidden'); });
+
   var io = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
+      if (entry.isIntersecting) {
+        entry.target.classList.remove('hidden');
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+
   items.forEach(function(el) { io.observe(el); });
 })();
 
@@ -844,11 +845,4 @@ document.getElementById('submitBtn').onclick = function() {
     })
   });
   setTimeout(function() {
-    btn.textContent = '✅ Berjaya! Kami hubungi anda dalam 24 jam.';
-    btn.style.background = '#0B6E4F';
-    fields.forEach(function(id){ var e=document.getElementById(id); e.disabled=true; e.style.opacity='0.5'; });
-  }, 1500);
-};
-</script>
-</body>
-</html>
+    btn.textContent
