@@ -2,730 +2,497 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KlinikBot — Selesaikan No-Show Appointment Klinik Anda</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>KlinikBot — Kurangkan No-Show. Automate WhatsApp Klinik Anda.</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Satoshi:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --green: #00C48C;
-    --green-dark: #00A374;
-    --green-light: #E6FBF4;
-    --navy: #0A1628;
-    --navy-mid: #112240;
-    --white: #FFFFFF;
-    --grey: #8896A5;
-    --grey-light: #F4F7FA;
-    --accent: #FF6B35;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--navy);
-    color: var(--white);
-    overflow-x: hidden;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; width: 100%; z-index: 100;
-    padding: 20px 60px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(10,22,40,0.85);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(0,196,140,0.15);
-  }
-  .logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px; font-weight: 700;
-    color: var(--white);
-    letter-spacing: -0.5px;
-  }
-  .logo span { color: var(--green); }
-  .nav-cta {
-    background: var(--green);
-    color: var(--navy);
-    padding: 10px 24px;
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 14px;
-    text-decoration: none;
-    transition: all 0.2s;
-  }
-  .nav-cta:hover { background: var(--green-dark); transform: translateY(-1px); }
-
-  /* HERO */
-  .hero {
-    min-height: 100vh;
-    display: flex; align-items: center;
-    padding: 120px 60px 80px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero::before {
-    content: '';
-    position: absolute; top: -200px; right: -200px;
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(0,196,140,0.12) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero::after {
-    content: '';
-    position: absolute; bottom: -100px; left: -100px;
-    width: 500px; height: 500px;
-    background: radial-gradient(circle, rgba(0,196,140,0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 80px; align-items: center;
-    max-width: 1200px; margin: 0 auto; width: 100%;
-  }
-
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(0,196,140,0.1);
-    border: 1px solid rgba(0,196,140,0.3);
-    padding: 6px 14px; border-radius: 20px;
-    font-size: 13px; color: var(--green);
-    font-weight: 500; margin-bottom: 28px;
-    animation: fadeUp 0.6s ease both;
-  }
-  .hero-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(40px, 5vw, 64px);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -1.5px;
-    margin-bottom: 24px;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
-  .hero h1 .highlight {
-    color: var(--green);
-    position: relative;
-    display: inline-block;
-  }
-
-  .hero h1 .highlight::after {
-    content: '';
-    position: absolute; bottom: 2px; left: 0; right: 0;
-    height: 3px;
-    background: var(--green);
-    opacity: 0.3;
-    border-radius: 2px;
-  }
-
-  .hero p {
-    font-size: 18px; color: rgba(255,255,255,0.65);
-    line-height: 1.7; margin-bottom: 36px;
-    font-weight: 300;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-
-  .hero-ctas {
-    display: flex; gap: 16px; align-items: center;
-    animation: fadeUp 0.6s 0.3s ease both;
-  }
-
-  .btn-primary {
-    background: var(--green);
-    color: var(--navy);
-    padding: 16px 32px;
-    border-radius: 8px;
-    font-weight: 700; font-size: 16px;
-    text-decoration: none;
-    transition: all 0.25s;
-    display: inline-flex; align-items: center; gap: 8px;
-    box-shadow: 0 0 30px rgba(0,196,140,0.3);
-  }
-  .btn-primary:hover {
-    background: var(--green-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 0 50px rgba(0,196,140,0.4);
-  }
-
-  .btn-secondary {
-    color: rgba(255,255,255,0.7);
-    font-size: 15px; font-weight: 500;
-    text-decoration: none;
-    display: inline-flex; align-items: center; gap: 6px;
-    transition: color 0.2s;
-  }
-  .btn-secondary:hover { color: var(--white); }
-
-  .hero-stats {
-    display: flex; gap: 32px; margin-top: 48px;
-    padding-top: 32px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    animation: fadeUp 0.6s 0.4s ease both;
-  }
-  .stat-item { }
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 32px; font-weight: 700;
-    color: var(--green);
-  }
-  .stat-label { font-size: 13px; color: var(--grey); margin-top: 2px; }
-
-  /* PHONE MOCKUP */
-  .hero-visual {
-    display: flex; justify-content: center; align-items: center;
-    position: relative;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-
-  .phone-wrap {
-    position: relative;
-  }
-
-  .phone-wrap::before {
-    content: '';
-    position: absolute; inset: -30px;
-    background: radial-gradient(circle, rgba(0,196,140,0.15), transparent 70%);
-    border-radius: 50%;
-  }
-
-  .phone {
-    width: 280px;
-    background: #1A2332;
-    border-radius: 36px;
-    border: 2px solid rgba(255,255,255,0.08);
-    overflow: hidden;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,196,140,0.1);
-    position: relative;
-  }
-
-  .phone-header {
-    background: #128C7E;
-    padding: 14px 16px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .phone-avatar {
-    width: 36px; height: 36px; border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-  .phone-name { font-size: 14px; font-weight: 600; }
-  .phone-status { font-size: 11px; opacity: 0.7; }
-
-  .phone-body {
-    padding: 16px;
-    background: #E5DDD5;
-    min-height: 360px;
-    display: flex; flex-direction: column; gap: 10px;
-  }
-
-  .msg {
-    max-width: 85%;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 13px; line-height: 1.5;
-    position: relative;
-    animation: msgPop 0.3s ease both;
-  }
-
-  .msg-bot {
-    background: white;
-    color: #333;
-    align-self: flex-start;
-    border-radius: 2px 8px 8px 8px;
-  }
-
-  .msg-user {
-    background: #DCF8C6;
-    color: #333;
-    align-self: flex-end;
-    border-radius: 8px 2px 8px 8px;
-  }
-
-  .msg-time {
-    font-size: 10px; color: #999;
-    text-align: right; margin-top: 2px;
-  }
-
-  .msg:nth-child(1) { animation-delay: 0.5s; opacity: 0; animation-fill-mode: forwards; }
-  .msg:nth-child(2) { animation-delay: 1.0s; opacity: 0; animation-fill-mode: forwards; }
-  .msg:nth-child(3) { animation-delay: 1.5s; opacity: 0; animation-fill-mode: forwards; }
-  .msg:nth-child(4) { animation-delay: 2.0s; opacity: 0; animation-fill-mode: forwards; }
-  .msg:nth-child(5) { animation-delay: 2.5s; opacity: 0; animation-fill-mode: forwards; }
-  .msg:nth-child(6) { animation-delay: 3.0s; opacity: 0; animation-fill-mode: forwards; }
-
-  @keyframes msgPop {
-    from { opacity: 0; transform: translateY(8px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-
-  .quick-replies {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    animation-delay: 3.5s; opacity: 0; animation: msgPop 0.3s 3.0s ease forwards;
-  }
-  .qr-btn {
-    background: white;
-    border: 1px solid #128C7E;
-    color: #128C7E;
-    padding: 5px 10px;
-    border-radius: 14px;
-    font-size: 11px; font-weight: 600;
-    cursor: pointer;
-  }
-
-  /* PAIN SECTION */
-  .pain-section {
-    padding: 100px 60px;
-    max-width: 1200px; margin: 0 auto;
-  }
-
-  .section-label {
-    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--green); font-weight: 600; margin-bottom: 16px;
-  }
-
-  .section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(32px, 4vw, 52px);
-    font-weight: 700; line-height: 1.1;
-    letter-spacing: -1px;
-    margin-bottom: 16px;
-  }
-
-  .pain-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 24px; margin-top: 60px;
-  }
-
-  .pain-card {
-    background: var(--navy-mid);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 32px;
-    transition: border-color 0.3s;
-  }
-  .pain-card:hover { border-color: rgba(0,196,140,0.3); }
-
-  .pain-icon { font-size: 36px; margin-bottom: 20px; }
-  .pain-card h3 { font-size: 18px; font-weight: 600; margin-bottom: 10px; }
-  .pain-card p { font-size: 14px; color: var(--grey); line-height: 1.6; }
-
-  .pain-cost {
-    display: inline-block;
-    background: rgba(255,107,53,0.12);
-    border: 1px solid rgba(255,107,53,0.25);
-    color: var(--accent);
-    padding: 4px 10px; border-radius: 4px;
-    font-size: 13px; font-weight: 600;
-    margin-top: 12px;
-  }
-
-  /* SOLUTION / HOW IT WORKS */
-  .solution-section {
-    padding: 100px 60px;
-    background: var(--navy-mid);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .solution-section::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,196,140,0.4), transparent);
-  }
-
-  .solution-inner { max-width: 1200px; margin: 0 auto; }
-
-  .steps {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 32px; margin-top: 64px;
-    position: relative;
-  }
-
-  .steps::before {
-    content: '';
-    position: absolute; top: 28px; left: 10%; right: 10%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,196,140,0.3), transparent);
-  }
-
-  .step {
-    text-align: center; position: relative;
-  }
-
-  .step-num {
-    width: 56px; height: 56px;
-    background: var(--green);
-    color: var(--navy);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 22px; font-weight: 700;
-    margin: 0 auto 20px;
-    position: relative; z-index: 1;
-  }
-
-  .step h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-  .step p { font-size: 13px; color: var(--grey); line-height: 1.6; }
-
-  /* FEATURES */
-  .features-section {
-    padding: 100px 60px;
-    max-width: 1200px; margin: 0 auto;
-  }
-
-  .features-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr);
-    gap: 20px; margin-top: 64px;
-  }
-
-  .feature-card {
-    background: var(--navy-mid);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 32px;
-    display: flex; gap: 20px;
-    transition: all 0.3s;
-  }
-  .feature-card:hover {
-    border-color: rgba(0,196,140,0.25);
-    background: rgba(0,196,140,0.04);
-  }
-  .feature-card.featured {
-    background: linear-gradient(135deg, rgba(0,196,140,0.1), rgba(0,163,116,0.05));
-    border-color: rgba(0,196,140,0.3);
-    grid-column: span 2;
-    flex-direction: row; align-items: center;
-  }
-
-  .feature-icon {
-    width: 48px; height: 48px; flex-shrink: 0;
-    background: rgba(0,196,140,0.1);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-  }
-
-  .feature-text h3 { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
-  .feature-text p { font-size: 14px; color: var(--grey); line-height: 1.6; }
-
-  /* PRICING */
-  .pricing-section {
-    padding: 100px 60px;
-    background: var(--navy-mid);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .pricing-section::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,196,140,0.4), transparent);
-  }
-
-  .pricing-inner { max-width: 1100px; margin: 0 auto; }
-
-  .pricing-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 24px; margin-top: 64px; align-items: start;
-  }
-
-  .price-card {
-    background: var(--navy);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 20px;
-    padding: 36px 32px;
-    transition: all 0.3s;
-    position: relative;
-  }
-  .price-card:hover { transform: translateY(-4px); }
-
-  .price-card.popular {
-    border-color: var(--green);
-    background: linear-gradient(160deg, rgba(0,196,140,0.08), var(--navy));
-    transform: scale(1.04);
-  }
-  .price-card.popular:hover { transform: scale(1.04) translateY(-4px); }
-
-  .popular-badge {
-    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-    background: var(--green);
-    color: var(--navy);
-    padding: 4px 16px; border-radius: 20px;
-    font-size: 12px; font-weight: 700;
-    white-space: nowrap;
-  }
-
-  .price-tier { font-size: 14px; color: var(--grey); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 16px; }
-  .price-amount {
-    font-family: 'Playfair Display', serif;
-    font-size: 52px; font-weight: 700;
-    color: var(--white); line-height: 1;
-    margin-bottom: 4px;
-  }
-  .price-amount span { font-size: 18px; font-weight: 400; color: var(--grey); }
-  .price-period { font-size: 13px; color: var(--grey); margin-bottom: 28px; }
-
-  .price-divider { height: 1px; background: rgba(255,255,255,0.08); margin-bottom: 24px; }
-
-  .price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
-  .price-features li {
-    font-size: 14px; color: rgba(255,255,255,0.8);
-    display: flex; align-items: flex-start; gap: 10px;
-  }
-  .price-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
-
-  .price-btn {
-    display: block; text-align: center;
-    padding: 14px; border-radius: 10px;
-    font-weight: 700; font-size: 15px;
-    text-decoration: none; transition: all 0.25s;
-  }
-  .price-btn-outline {
-    border: 1px solid rgba(255,255,255,0.2);
-    color: var(--white);
-  }
-  .price-btn-outline:hover { border-color: var(--green); color: var(--green); }
-  .price-btn-filled {
-    background: var(--green);
-    color: var(--navy);
-  }
-  .price-btn-filled:hover { background: var(--green-dark); box-shadow: 0 0 30px rgba(0,196,140,0.3); }
-
-  /* SOCIAL PROOF */
-  .proof-section {
-    padding: 100px 60px;
-    max-width: 1200px; margin: 0 auto;
-  }
-
-  .testimonials {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 24px; margin-top: 64px;
-  }
-
-  .testimonial {
-    background: var(--navy-mid);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 32px;
-  }
-
-  .stars { color: #FFD700; font-size: 18px; margin-bottom: 16px; }
-  .testimonial p { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.7; font-style: italic; margin-bottom: 20px; }
-  .testimonial-author { display: flex; align-items: center; gap: 12px; }
-  .author-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--green), var(--green-dark));
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 14px; color: var(--navy);
-  }
-  .author-name { font-size: 14px; font-weight: 600; }
-  .author-role { font-size: 12px; color: var(--grey); }
-
-  /* CTA FINAL */
-  .cta-section {
-    padding: 100px 60px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-section::before {
-    content: '';
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 800px; height: 800px;
-    background: radial-gradient(circle, rgba(0,196,140,0.08), transparent 70%);
-    pointer-events: none;
-  }
-
-  .cta-inner { max-width: 700px; margin: 0 auto; position: relative; }
-
-  .cta-section h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(36px, 5vw, 60px);
-    font-weight: 700; line-height: 1.1;
-    letter-spacing: -1.5px; margin-bottom: 20px;
-  }
-
-  .cta-section p { font-size: 18px; color: var(--grey); margin-bottom: 40px; }
-
-  /* FORM */
-  .signup-form {
-    background: var(--navy-mid);
-    border: 1px solid rgba(0,196,140,0.2);
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 480px; margin: 0 auto;
-    text-align: left;
-  }
-
-  .form-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
-  .form-sub { font-size: 14px; color: var(--grey); margin-bottom: 24px; }
-
-  .form-group { margin-bottom: 16px; }
-  .form-group label { font-size: 13px; color: rgba(255,255,255,0.6); display: block; margin-bottom: 6px; }
-  .form-group input {
-    width: 100%;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px;
-    padding: 12px 16px;
-    color: var(--white);
-    font-size: 15px;
-    font-family: 'DM Sans', sans-serif;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-  .form-group input:focus { border-color: var(--green); }
-  .form-group input::placeholder { color: rgba(255,255,255,0.3); }
-
-  .form-submit {
-    width: 100%;
-    background: var(--green);
-    color: var(--navy);
-    border: none; border-radius: 8px;
-    padding: 14px;
-    font-size: 16px; font-weight: 700;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    margin-top: 8px;
-    transition: all 0.25s;
-  }
-  .form-submit:hover { background: var(--green-dark); transform: translateY(-1px); }
-
-  .form-guarantee {
-    text-align: center; font-size: 12px; color: var(--grey);
-    margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-
-  /* FOOTER */
-  footer {
-    padding: 40px 60px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex; justify-content: space-between; align-items: center;
-  }
-
-  .footer-logo { font-family: 'Playfair Display', serif; font-size: 18px; }
-  .footer-logo span { color: var(--green); }
-  footer p { font-size: 13px; color: var(--grey); }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .hero { padding: 100px 24px 60px; }
-    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-    .hero-visual { order: -1; }
-    .phone { width: 240px; }
-    .pain-section, .features-section, .proof-section, .cta-section { padding: 60px 24px; }
-    .solution-section, .pricing-section { padding: 60px 24px; }
-    .pain-grid, .steps, .pricing-grid, .testimonials { grid-template-columns: 1fr; }
-    .steps::before { display: none; }
-    .features-grid { grid-template-columns: 1fr; }
-    .feature-card.featured { grid-column: span 1; flex-direction: column; }
-    footer { flex-direction: column; gap: 12px; text-align: center; padding: 32px 24px; }
-    .hero-stats { flex-wrap: wrap; gap: 20px; }
-    .price-card.popular { transform: none; }
-  }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+:root {
+  --teal: #0B6E4F;
+  --teal-mid: #0D8A63;
+  --teal-light: #12B87F;
+  --white: #FFFFFF;
+  --off-white: #F8FAF9;
+  --cream: #F2F7F5;
+  --text: #0D1F1A;
+  --text-mid: #3D5A50;
+  --text-light: #7A9E93;
+  --border: rgba(11,110,79,0.12);
+  --red: #E8372A;
+}
+body { font-family: 'Satoshi', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+  padding: 0 24px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.92); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--teal); }
+.logo span { color: var(--teal-light); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-link { font-size: 14px; color: var(--text-mid); text-decoration: none; font-weight: 500; display: none; }
+@media(min-width:768px){ .nav-link { display: block; } }
+.nav-btn {
+  background: var(--teal); color: white; padding: 9px 20px;
+  border-radius: 100px; font-size: 14px; font-weight: 700;
+  text-decoration: none; white-space: nowrap; transition: all 0.2s;
+}
+.nav-btn:hover { background: var(--teal-mid); transform: translateY(-1px); }
+
+/* HERO */
+.hero {
+  min-height: 100svh; padding: 88px 24px 60px;
+  display: flex; flex-direction: column; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 80% 50% at 90% 20%, rgba(18,184,127,0.08), transparent 60%),
+              radial-gradient(ellipse 60% 40% at 10% 80%, rgba(11,110,79,0.05), transparent 60%);
+}
+.hero-inner {
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center;
+}
+@media(min-width:900px){ .hero-inner { grid-template-columns: 1.1fr 1fr; gap: 64px; } }
+
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--cream); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 100px;
+  font-size: 13px; color: var(--teal); font-weight: 600; margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 0.5s 0.1s ease forwards;
+}
+.pulse-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--teal-light);
+  animation: pulseDot 2s infinite;
+}
+@keyframes pulseDot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:0.6} }
+
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(38px, 6vw, 68px); line-height: 1.05; letter-spacing: -1.5px;
+  margin-bottom: 20px; opacity: 0; animation: fadeUp 0.5s 0.2s ease forwards;
+}
+.hero h1 em { font-style: italic; color: var(--teal-light); }
+.hero-sub {
+  font-size: clamp(16px, 2vw, 18px); color: var(--text-mid); line-height: 1.65;
+  margin-bottom: 36px; max-width: 520px;
+  opacity: 0; animation: fadeUp 0.5s 0.3s ease forwards;
+}
+.hero-ctas {
+  display: flex; flex-direction: column; gap: 12px;
+  opacity: 0; animation: fadeUp 0.5s 0.4s ease forwards;
+}
+@media(min-width:480px){ .hero-ctas { flex-direction: row; align-items: center; } }
+.btn-hero {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--teal); color: white; padding: 16px 28px;
+  border-radius: 100px; font-size: 16px; font-weight: 700;
+  text-decoration: none; transition: all 0.25s;
+  box-shadow: 0 8px 32px rgba(11,110,79,0.25);
+}
+.btn-hero:hover { background: var(--teal-mid); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(11,110,79,0.3); }
+.btn-ghost {
+  font-size: 15px; color: var(--text-mid); font-weight: 500;
+  text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s;
+}
+.btn-ghost:hover { color: var(--teal); }
+.hero-trust {
+  display: flex; align-items: center; gap: 12px; margin-top: 28px; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.5s 0.5s ease forwards;
+}
+.trust-avatars { display: flex; }
+.trust-avatar {
+  width: 32px; height: 32px; border-radius: 50%; border: 2px solid white;
+  background: linear-gradient(135deg, var(--teal-light), var(--teal));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: white; margin-left: -8px;
+}
+.trust-avatar:first-child { margin-left: 0; }
+.trust-text { font-size: 13px; color: var(--text-light); }
+.trust-text strong { color: var(--text); }
+
+/* PHONE */
+.hero-visual {
+  display: flex; justify-content: center;
+  opacity: 0; animation: fadeUp 0.6s 0.3s ease forwards;
+}
+.phone-scene { position: relative; width: 280px; }
+.phone-glow {
+  position: absolute; inset: -40px;
+  background: radial-gradient(circle, rgba(18,184,127,0.1), transparent 70%);
+  border-radius: 50%;
+}
+.phone {
+  width: 280px; background: #0D1A14; border-radius: 40px;
+  border: 1.5px solid rgba(255,255,255,0.08); overflow: hidden;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.2), 0 0 0 1px rgba(18,184,127,0.08);
+  position: relative;
+}
+.phone-notch {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  width: 80px; height: 6px; background: #1a2e25; border-radius: 10px; z-index: 2;
+}
+.wa-header {
+  background: #075E54; padding: 42px 14px 12px;
+  display: flex; align-items: center; gap: 10px;
+}
+.wa-back { color: rgba(255,255,255,0.8); font-size: 18px; }
+.wa-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center; font-size: 17px;
+}
+.wa-name { font-size: 14px; font-weight: 600; color: white; }
+.wa-status { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 1px; }
+.wa-body {
+  background: #ECE5DD; padding: 12px 10px;
+  min-height: 380px; display: flex; flex-direction: column; gap: 8px;
+}
+.wa-date {
+  text-align: center; background: rgba(255,255,255,0.6); border-radius: 6px;
+  padding: 3px 10px; font-size: 10px; color: #6B7280; align-self: center; margin-bottom: 4px;
+}
+.bubble {
+  max-width: 82%; padding: 8px 10px;
+  font-size: 12px; line-height: 1.45; color: #1a1a1a; opacity: 0;
+}
+.bubble-in { background: white; border-radius: 0 10px 10px 10px; align-self: flex-start; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.bubble-out { background: #DCF8C6; border-radius: 10px 0 10px 10px; align-self: flex-end; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.bubble-time { font-size: 9px; color: #8696A0; text-align: right; margin-top: 3px; }
+.quick-btns { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 4px; }
+.qb { background: white; border: 1px solid #0B6E4F; color: #0B6E4F; padding: 4px 9px; border-radius: 14px; font-size: 10px; font-weight: 600; }
+.wa-input {
+  background: white; padding: 8px 12px;
+  display: flex; align-items: center; gap: 8px; border-top: 1px solid rgba(0,0,0,0.08);
+}
+.wa-input-field { flex: 1; font-size: 12px; color: #999; background: #F0F0F0; border-radius: 20px; padding: 6px 12px; }
+.wa-send { width: 32px; height: 32px; border-radius: 50%; background: #25D366; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; }
+
+.badge-float {
+  position: absolute; background: white; border-radius: 14px; padding: 10px 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12); display: flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 600; white-space: nowrap;
+  animation: floatBadge 3s ease-in-out infinite;
+}
+.badge-float.left { left: -20px; bottom: 100px; }
+.badge-float.right { right: -16px; top: 120px; animation-delay: 1.5s; }
+.badge-icon { font-size: 18px; }
+@keyframes floatBadge { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+.b1{animation:bubblePop 0.3s 0.8s ease forwards}
+.b2{animation:bubblePop 0.3s 1.4s ease forwards}
+.b3{animation:bubblePop 0.3s 2.0s ease forwards}
+.b4{animation:bubblePop 0.3s 2.6s ease forwards}
+.b5{animation:bubblePop 0.3s 3.2s ease forwards}
+@keyframes bubblePop { from{opacity:0;transform:scale(0.9) translateY(6px)} to{opacity:1;transform:scale(1) translateY(0)} }
+
+/* PROBLEM STRIP */
+.problem-strip {
+  background: #FEF3F2; border-top: 1px solid #FEE2E0; border-bottom: 1px solid #FEE2E0;
+  padding: 20px 24px;
+}
+.strip-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 16px;
+}
+@media(min-width:768px){ .strip-inner { flex-direction: row; align-items: center; justify-content: space-between; gap: 24px; } }
+.strip-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--red); }
+.strip-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+.strip-num { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--red); line-height: 1; }
+.strip-desc { font-size: 11px; color: #7f3030; margin-top: 2px; }
+
+/* SECTIONS */
+.section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
+.section-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--teal); margin-bottom: 14px;
+}
+.section-tag::before { content:''; width:20px; height:2px; background:var(--teal-light); border-radius:2px; }
+.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(30px,4.5vw,52px); line-height: 1.1; letter-spacing: -1px;
+  margin-bottom: 14px;
+}
+.section-sub { font-size: 17px; color: var(--text-mid); line-height: 1.6; max-width: 560px; }
+
+/* PAIN */
+.pain-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 48px; }
+@media(min-width:640px){ .pain-grid { grid-template-columns: repeat(2,1fr); } }
+@media(min-width:900px){ .pain-grid { grid-template-columns: repeat(3,1fr); } }
+.pain-card {
+  background: var(--off-white); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px 24px; transition: all 0.3s; position: relative; overflow: hidden;
+}
+.pain-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg,var(--red),#ff6b6b);
+  transform:scaleX(0); transform-origin:left; transition:transform 0.3s;
+}
+.pain-card:hover { border-color:rgba(232,55,42,0.2); transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.06); }
+.pain-card:hover::before { transform:scaleX(1); }
+.pain-emoji { font-size: 32px; margin-bottom: 16px; display: block; }
+.pain-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.pain-card p { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+.pain-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #FEE2E0; border-radius: 100px;
+  padding: 4px 10px; font-size: 12px; font-weight: 700; color: var(--red); margin-top: 14px;
+}
+
+/* HOW */
+.how-section {
+  background: var(--cream); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 80px 24px;
+}
+.how-inner { max-width: 1100px; margin: 0 auto; }
+.steps-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 48px; }
+@media(min-width:640px){ .steps-grid { grid-template-columns: repeat(2,1fr); } }
+@media(min-width:900px){ .steps-grid { grid-template-columns: repeat(4,1fr); } }
+.step-card {
+  background: white; border-radius: 20px; padding: 28px 22px;
+  border: 1px solid var(--border); transition: all 0.3s;
+}
+.step-card:hover { transform:translateY(-4px); box-shadow:0 16px 48px rgba(11,110,79,0.08); }
+.step-num {
+  width: 44px; height: 44px; border-radius: 14px; background: var(--teal);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-family: 'Instrument Serif', serif; font-size: 22px; margin-bottom: 18px;
+}
+.step-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.step-card p { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+/* FEATURES */
+.features-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 48px; }
+@media(min-width:640px){ .features-grid { grid-template-columns: repeat(2,1fr); } }
+.feat-card {
+  background: var(--off-white); border: 1px solid var(--border);
+  border-radius: 20px; padding: 28px 24px; display: flex; gap: 18px; transition: all 0.3s;
+}
+.feat-card:hover { border-color:rgba(11,110,79,0.25); background:var(--cream); }
+.feat-card.big { background: var(--teal); border-color: transparent; grid-column: 1/-1; }
+.feat-card.big:hover { background: var(--teal-mid); }
+.feat-card.big h3, .feat-card.big p { color: white; }
+.feat-card.big p { opacity: 0.8; }
+.feat-card.big .feat-icon { background: rgba(255,255,255,0.15); }
+.feat-icon { width:46px; height:46px; flex-shrink:0; background:var(--cream); border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+.feat-text h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+.feat-text p { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+
+/* PROOF */
+.proof-section { background: var(--teal); padding: 80px 24px; position: relative; overflow: hidden; }
+.proof-section::before {
+  content:''; position:absolute; top:-100px; right:-100px;
+  width:400px; height:400px; border-radius:50%; background:rgba(255,255,255,0.04);
+}
+.proof-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+.proof-inner .section-tag { color: var(--teal-light); }
+.proof-inner .section-tag::before { background: var(--teal-light); }
+.proof-inner .section-title { color: white; }
+
+.stats-row { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; margin: 48px 0; }
+@media(min-width:640px){ .stats-row { grid-template-columns: repeat(4,1fr); } }
+.stat-box {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px; padding: 24px 20px; text-align: center;
+}
+.stat-big { font-family: 'Instrument Serif', serif; font-size: 42px; color: white; line-height: 1; }
+.stat-small { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 6px; }
+
+.testimonials-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 48px; }
+@media(min-width:640px){ .testimonials-grid { grid-template-columns: repeat(3,1fr); } }
+.testi-card {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px; padding: 24px; transition: background 0.3s;
+}
+.testi-card:hover { background: rgba(255,255,255,0.12); }
+.stars { font-size: 14px; margin-bottom: 12px; letter-spacing: 1px; }
+.testi-card blockquote { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.7; font-style: italic; margin-bottom: 18px; }
+.testi-author { display: flex; align-items: center; gap: 10px; }
+.testi-av { width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:white; }
+.testi-name { font-size: 13px; font-weight: 700; color: white; }
+.testi-role { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 1px; }
+
+/* PRICING */
+.pricing-section { padding: 80px 24px; }
+.pricing-inner { max-width: 1100px; margin: 0 auto; }
+.pricing-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 48px; }
+@media(min-width:640px){ .pricing-grid { grid-template-columns: repeat(3,1fr); } }
+.price-card {
+  border: 1.5px solid var(--border); border-radius: 24px; padding: 32px 28px;
+  background: white; transition: all 0.3s; position: relative;
+}
+.price-card:hover { transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.06); }
+.price-card.hero-plan { border-color: var(--teal); background: var(--teal); }
+.price-card.hero-plan * { color: white; }
+.price-badge {
+  display: inline-block; background: var(--teal-light); color: var(--teal);
+  padding: 4px 12px; border-radius: 100px;
+  font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px;
+}
+.hero-plan .price-badge { background: rgba(255,255,255,0.2); color: white; }
+.price-tier { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--text-light); margin-bottom: 12px; }
+.hero-plan .price-tier { color: rgba(255,255,255,0.6); }
+.price-num { font-family: 'Instrument Serif', serif; font-size: 52px; line-height: 1; color: var(--text); }
+.price-num sub { font-size: 18px; font-family: 'Satoshi',sans-serif; font-weight: 400; color: var(--text-light); }
+.hero-plan .price-num sub { color: rgba(255,255,255,0.6); }
+.price-period { font-size: 13px; color: var(--text-light); margin-bottom: 6px; }
+.price-setup { font-size: 12px; color: var(--text-light); margin-bottom: 24px; }
+.hero-plan .price-period,.hero-plan .price-setup { color: rgba(255,255,255,0.6); }
+.price-divider { height:1px; background:var(--border); margin-bottom:24px; }
+.hero-plan .price-divider { background:rgba(255,255,255,0.15); }
+.price-list { list-style:none; display:flex; flex-direction:column; gap:11px; margin-bottom:28px; }
+.price-list li { font-size:14px; color:var(--text-mid); display:flex; align-items:flex-start; gap:10px; line-height:1.4; }
+.hero-plan .price-list li { color:rgba(255,255,255,0.85); }
+.price-list li::before { content:'✓'; color:var(--teal-light); font-weight:800; flex-shrink:0; margin-top:1px; }
+.hero-plan .price-list li::before { color:rgba(255,255,255,0.8); }
+.price-cta { display:block; text-align:center; padding:14px; border-radius:100px; font-size:15px; font-weight:700; text-decoration:none; transition:all 0.25s; }
+.price-cta-outline { border:2px solid var(--teal); color:var(--teal); }
+.price-cta-outline:hover { background:var(--teal); color:white; }
+.price-cta-filled { background:white; color:var(--teal); }
+.price-cta-filled:hover { background:var(--cream); }
+
+/* CTA FORM */
+.cta-section { background: var(--off-white); border-top:1px solid var(--border); padding: 80px 24px; }
+.cta-inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr; gap:48px; align-items:start; }
+@media(min-width:768px){ .cta-inner { grid-template-columns:1fr 1fr; gap:64px; } }
+.cta-left h2 { font-family:'Instrument Serif',serif; font-size:clamp(30px,4vw,48px); line-height:1.1; letter-spacing:-1px; margin-bottom:16px; }
+.cta-left p { font-size:16px; color:var(--text-mid); line-height:1.65; margin-bottom:28px; }
+.cta-points { list-style:none; display:flex; flex-direction:column; gap:12px; }
+.cta-points li { display:flex; align-items:center; gap:10px; font-size:15px; font-weight:500; }
+.cta-points li span { color:var(--teal); font-size:18px; font-weight:800; }
+
+.form-card {
+  background: white; border:1.5px solid var(--border); border-radius:24px; padding:32px 28px;
+  box-shadow:0 8px 40px rgba(11,110,79,0.06);
+}
+.form-card h3 { font-size:19px; font-weight:700; margin-bottom:4px; }
+.form-card > p { font-size:14px; color:var(--text-light); margin-bottom:24px; }
+.form-group { margin-bottom:14px; }
+.form-group label { display:block; font-size:13px; font-weight:600; color:var(--text-mid); margin-bottom:6px; }
+.form-group input {
+  width:100%; border:1.5px solid var(--border); border-radius:12px; padding:12px 16px;
+  font-size:15px; font-family:'Satoshi',sans-serif; color:var(--text); background:white;
+  outline:none; transition:border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(11,110,79,0.08); }
+.form-group input::placeholder { color:#B0C4BC; }
+.form-submit {
+  width:100%; padding:15px; background:var(--teal); color:white; border:none; border-radius:100px;
+  font-size:16px; font-weight:700; font-family:'Satoshi',sans-serif; cursor:pointer; margin-top:6px;
+  transition:all 0.25s; box-shadow:0 6px 24px rgba(11,110,79,0.25);
+}
+.form-submit:hover { background:var(--teal-mid); transform:translateY(-1px); }
+.form-submit:disabled { opacity:0.7; cursor:not-allowed; transform:none; }
+.form-note { text-align:center; font-size:12px; color:var(--text-light); margin-top:12px; display:flex; align-items:center; justify-content:center; gap:5px; }
+
+/* FOOTER */
+footer { background:var(--text); padding:40px 24px; }
+.footer-inner {
+  max-width:1100px; margin:0 auto;
+  display:flex; flex-direction:column; gap:12px; align-items:center; text-align:center;
+}
+@media(min-width:640px){ .footer-inner { flex-direction:row; justify-content:space-between; text-align:left; } }
+.footer-logo { font-family:'Instrument Serif',serif; font-size:20px; color:white; }
+.footer-logo span { color:var(--teal-light); }
+footer p { font-size:13px; color:rgba(255,255,255,0.4); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 0.5s ease, transform 0.5s ease; }
+.reveal.visible { opacity:1; transform:translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="logo">Klinik<span>Bot</span></div>
-  <a href="#daftar" class="nav-cta">Cuba Percuma 30 Hari →</a>
+  <div class="nav-right">
+    <a href="#harga" class="nav-link">Harga</a>
+    <a href="#daftar" class="nav-btn">Cuba Percuma →</a>
+  </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
-  <div class="hero-grid">
-    <div class="hero-content">
-      <div class="hero-badge">🇲🇾 Dibuat khas untuk klinik Malaysia</div>
-      <h1>Hentikan <span class="highlight">No-Show</span>.<br>Automate Appointment.</h1>
-      <p>Klinik anda kehilangan RM500–2,000 setiap minggu akibat pesakit yang tidak hadir. KlinikBot automate reminder, booking & follow-up via WhatsApp — tanpa anda perlu angkat telefon.</p>
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag"><div class="pulse-dot"></div> Khas untuk klinik Malaysia 🇲🇾</div>
+      <h1>Jangan biar<br><em>no-show</em> curi<br>duit klinik anda.</h1>
+      <p class="hero-sub">KlinikBot automate booking, hantar reminder, dan jawab WhatsApp pesakit — 24 jam tanpa henti. Staf anda fokus pada yang lebih penting.</p>
       <div class="hero-ctas">
-        <a href="#daftar" class="btn-primary">🚀 Cuba Percuma 30 Hari</a>
-        <a href="#cara-kerja" class="btn-secondary">Tengok cara kerja →</a>
+        <a href="#daftar" class="btn-hero">🚀 Cuba Percuma 30 Hari</a>
+        <a href="#cara-kerja" class="btn-ghost">Tengok cara kerja <span>→</span></a>
       </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-num">-73%</div>
-          <div class="stat-label">Kadar no-show</div>
+      <div class="hero-trust">
+        <div class="trust-avatars">
+          <div class="trust-avatar">DR</div>
+          <div class="trust-avatar">KL</div>
+          <div class="trust-avatar">MY</div>
+          <div class="trust-avatar">+</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-num">8 jam</div>
-          <div class="stat-label">Jimat setiap minggu</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">30 hari</div>
-          <div class="stat-label">Trial percuma, no credit card</div>
-        </div>
+        <p class="trust-text"><strong>Lebih 20 klinik</strong> sedang dalam waitlist</p>
       </div>
     </div>
 
     <div class="hero-visual">
-      <div class="phone-wrap">
+      <div class="phone-scene">
+        <div class="phone-glow"></div>
+        <div class="badge-float left">
+          <div class="badge-icon">📉</div>
+          <div>
+            <div style="font-size:11px;color:#666;font-weight:500">No-show berkurang</div>
+            <div style="color:#0B6E4F;font-size:15px;font-weight:900">-73%</div>
+          </div>
+        </div>
+        <div class="badge-float right">
+          <div class="badge-icon">⏰</div>
+          <div>
+            <div style="font-size:11px;color:#666;font-weight:500">Masa jimat</div>
+            <div style="color:#0B6E4F;font-size:15px;font-weight:900">8 jam/minggu</div>
+          </div>
+        </div>
         <div class="phone">
-          <div class="phone-header">
-            <div class="phone-avatar">🏥</div>
+          <div class="phone-notch"></div>
+          <div class="wa-header">
+            <div class="wa-back">‹</div>
+            <div class="wa-avatar">🏥</div>
             <div>
-              <div class="phone-name">Klinik Dr. Ahmad</div>
-              <div class="phone-status">Online sekarang</div>
+              <div class="wa-name">Klinik Dr. Ahmad</div>
+              <div class="wa-status">online sekarang</div>
             </div>
           </div>
-          <div class="phone-body">
-            <div class="msg msg-bot">
-              Selamat datang ke Klinik Dr. Ahmad! 👋<br>
-              Saya boleh bantu anda dengan:
-              <div class="quick-replies" style="margin-top:8px;">
-                <div class="qr-btn">📅 Buat Appointment</div>
-                <div class="qr-btn">🕐 Waktu Operasi</div>
-                <div class="qr-btn">💊 Tanya Doktor</div>
+          <div class="wa-body">
+            <div class="wa-date">Hari ini</div>
+            <div class="bubble bubble-in b1">
+              Selamat datang! 👋 Saya boleh bantu:
+              <div class="quick-btns">
+                <div class="qb">📅 Buat Appointment</div>
+                <div class="qb">🕐 Waktu Operasi</div>
+                <div class="qb">💊 Tanya Doktor</div>
               </div>
-              <div class="msg-time">9:01 AM ✓✓</div>
+              <div class="bubble-time">9:01 AM ✓✓</div>
             </div>
-            <div class="msg msg-user">
-              Nak buat appointment untuk esok
-              <div class="msg-time">9:02 AM ✓✓</div>
+            <div class="bubble bubble-out b2">Nak buat appointment esok pagi<div class="bubble-time">9:02 AM ✓✓</div></div>
+            <div class="bubble bubble-in b3">
+              Slot tersedia esok:<br>🕙 10:00 AM &nbsp; 🕐 1:00 PM &nbsp; 🕓 4:00 PM<br>Pilih slot mana? 😊
+              <div class="bubble-time">9:02 AM ✓✓</div>
             </div>
-            <div class="msg msg-bot">
-              Slot yang ada untuk esok (Sabtu):<br><br>
-              🕙 10:00 AM<br>
-              🕐 1:00 PM<br>
-              🕓 4:00 PM<br><br>
-              Pilih yang mana satu? 😊
-              <div class="msg-time">9:02 AM ✓✓</div>
+            <div class="bubble bubble-out b4">10 pagi boleh<div class="bubble-time">9:03 AM ✓✓</div></div>
+            <div class="bubble bubble-in b5">
+              ✅ <strong>Appointment Disahkan!</strong><br>📅 Sabtu &nbsp;🕙 10:00 AM<br>Reminder akan dihantar. 💚
+              <div class="bubble-time">9:03 AM ✓✓</div>
             </div>
-            <div class="msg msg-user">
-              10 pagi boleh
-              <div class="msg-time">9:03 AM ✓✓</div>
-            </div>
-            <div class="msg msg-bot">
-              ✅ Appointment disahkan!<br><br>
-              📅 Sabtu, 28 Feb 2025<br>
-              🕙 10:00 AM<br>
-              📍 Klinik Dr. Ahmad, Penang<br><br>
-              Anda akan terima reminder 1 hari & 1 jam sebelum. Jaga diri! 💚
-              <div class="msg-time">9:03 AM ✓✓</div>
-            </div>
+          </div>
+          <div class="wa-input">
+            <div class="wa-input-field">Taip mesej...</div>
+            <div class="wa-send">➤</div>
           </div>
         </div>
       </div>
@@ -733,124 +500,117 @@
   </div>
 </section>
 
-<!-- PAIN POINTS -->
-<section class="pain-section">
-  <div class="section-label">Masalah yang anda hadapi sekarang</div>
-  <h2 class="section-title">Klinik anda sedang rugi<br>tanpa anda sedar</h2>
+<div class="problem-strip">
+  <div class="strip-inner">
+    <div class="strip-label">⚠️ Klinik anda rugi setiap minggu</div>
+    <div class="strip-stats">
+      <div><div class="strip-num">15–25%</div><div class="strip-desc">slot terbuang akibat no-show</div></div>
+      <div><div class="strip-num">3–4 jam</div><div class="strip-desc">staf jawab WhatsApp sehari</div></div>
+      <div><div class="strip-num">10 minit</div><div class="strip-desc">masa sabar pesakit tunggu reply</div></div>
+      <div><div class="strip-num">RM2k+</div><div class="strip-desc">kerugian purata seminggu</div></div>
+    </div>
+  </div>
+</div>
 
+<div class="section">
+  <div class="section-tag">Masalah sebenar</div>
+  <h2 class="section-title">Masih buat semua<br>ini secara manual?</h2>
+  <p class="section-sub">Klinik anda tidak perlu terus bergelut dengan masalah yang boleh diselesaikan automatik.</p>
   <div class="pain-grid">
-    <div class="pain-card">
-      <div class="pain-icon">📵</div>
-      <h3>Pesakit Tidak Hadir (No-Show)</h3>
-      <p>Purata klinik swasta Malaysia kehilangan 15–25% slot setiap minggu. Masa yang terbuang tidak boleh dikembalikan.</p>
-      <div class="pain-cost">Rugi RM800–2,000/minggu</div>
+    <div class="pain-card reveal">
+      <span class="pain-emoji">📵</span>
+      <h3>Pesakit tak hadir tanpa khabar</h3>
+      <p>Slot kosong last minute. Masa buang, pendapatan hilang. Tiada sistem reminder bermakna tiada kawalan.</p>
+      <div class="pain-badge">⚡ Rugi RM800–2,000/minggu</div>
     </div>
-    <div class="pain-card">
-      <div class="pain-icon">📱</div>
-      <h3>Staf Penat Jawab WhatsApp</h3>
-      <p>Soalan berulang — waktu operasi, harga, booking — makan masa staf anda sehingga 3–4 jam sehari.</p>
-      <div class="pain-cost">Buang 20+ jam/minggu</div>
+    <div class="pain-card reveal">
+      <span class="pain-emoji">😰</span>
+      <h3>Staf penat jawab soalan berulang</h3>
+      <p>"Waktu buka pukul berapa?" "Ada parking tak?" — soalan sama setiap hari, makan masa staf berjam-jam.</p>
+      <div class="pain-badge">⚡ Buang 20+ jam/minggu</div>
     </div>
-    <div class="pain-card">
-      <div class="pain-icon">😤</div>
-      <h3>Pesakit Keluar Kerana Lambat Reply</h3>
-      <p>90% pesakit expect reply dalam 10 minit. Lambat jawab = mereka pergi ke klinik sebelah.</p>
-      <div class="pain-cost">Hilang 5–10 pesakit/bulan</div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="solution-section" id="cara-kerja">
-  <div class="solution-inner">
-    <div class="section-label">Cara ia berfungsi</div>
-    <h2 class="section-title">Setup dalam 24 jam.<br>Automate selama-lamanya.</h2>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>Daftar & Setup</h3>
-        <p>Kami setup semua untuk anda dalam 24 jam. Anda tidak perlu tahu coding langsung.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>Bot Jawab Otomatik</h3>
-        <p>Pesakit tanya via WhatsApp, bot jawab dalam 5 saat — 24/7 tanpa henti.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Booking & Reminder</h3>
-        <p>Pesakit buat appointment sendiri. Bot send reminder 24 jam & 1 jam sebelum.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <h3>Anda Pantau Dashboard</h3>
-        <p>Semak semua conversation, appointment, dan analytics dari satu dashboard ringkas.</p>
-      </div>
+    <div class="pain-card reveal">
+      <span class="pain-emoji">😤</span>
+      <h3>Pesakit pergi ke klinik lain</h3>
+      <p>Lambat balas WhatsApp = pesakit hilang kepercayaan. Mereka Google klinik lain dan terus pergi sana.</p>
+      <div class="pain-badge">⚡ Hilang 5–10 pesakit/bulan</div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- FEATURES -->
-<section class="features-section">
-  <div class="section-label">Apa yang anda dapat</div>
-  <h2 class="section-title">Semua yang klinik anda perlukan</h2>
+<div class="how-section" id="cara-kerja">
+  <div class="how-inner">
+    <div class="section-tag">Cara ia berfungsi</div>
+    <h2 class="section-title">Setup hari ini.<br>Automate selama-lamanya.</h2>
+    <div class="steps-grid">
+      <div class="step-card reveal"><div class="step-num">1</div><h3>Kami setup untuk anda</h3><p>Dalam 24 jam, semua dah ready. Anda tidak perlu tahu coding atau teknologi.</p></div>
+      <div class="step-card reveal"><div class="step-num">2</div><h3>Bot jawab 24/7</h3><p>Pesakit tanya waktu malam atau hujung minggu — bot jawab dalam 5 saat.</p></div>
+      <div class="step-card reveal"><div class="step-num">3</div><h3>Booking & reminder auto</h3><p>Pesakit buat appointment sendiri. Reminder hantar auto 24j dan 1j sebelum.</p></div>
+      <div class="step-card reveal"><div class="step-num">4</div><h3>Pantau dashboard</h3><p>Semua data conversation, appointment dan analytics di hujung jari anda.</p></div>
+    </div>
+  </div>
+</div>
 
+<div class="section">
+  <div class="section-tag">Apa yang anda dapat</div>
+  <h2 class="section-title">Lengkap. Mudah.<br>Berkesan.</h2>
   <div class="features-grid">
-    <div class="feature-card featured">
-      <div class="feature-icon" style="width:56px;height:56px;font-size:26px;">🤖</div>
-      <div class="feature-text">
-        <h3>AI yang faham Bahasa Malaysia & Manglish</h3>
-        <p>Bot kami dilatih khas dengan bahasa pesakit Malaysia — BM, English, Manglish. Tiada lagi reply yang kekok atau tak faham soalan. Pesakit rasa seperti bercakap dengan manusia sebenar.</p>
+    <div class="feat-card big reveal">
+      <div class="feat-icon">🤖</div>
+      <div class="feat-text">
+        <h3>AI yang faham BM, English & Manglish</h3>
+        <p>Dilatih khas untuk pesakit Malaysia. Balas terasa natural, bukan macam robot. Pesakit rasa selesa berkomunikasi.</p>
       </div>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon">📅</div>
-      <div class="feature-text">
-        <h3>Auto Booking & Jadual</h3>
-        <p>Pesakit boleh buat, ubah, atau batal appointment sendiri via WhatsApp. Sync automatik ke Google Calendar anda.</p>
-      </div>
+    <div class="feat-card reveal"><div class="feat-icon">📅</div><div class="feat-text"><h3>Auto Booking & Jadual</h3><p>Pesakit buat, ubah atau batal appointment sendiri. Sync ke Google Calendar klinik anda.</p></div></div>
+    <div class="feat-card reveal"><div class="feat-icon">🔔</div><div class="feat-text"><h3>Reminder Berlapis</h3><p>Auto hantar 24 jam, 2 jam dan 30 minit sebelum appointment. No-show turun drastik.</p></div></div>
+    <div class="feat-card reveal"><div class="feat-icon">💬</div><div class="feat-text"><h3>FAQ Auto-Reply</h3><p>Harga, waktu operasi, lokasi — semua dijawab automatik tanpa staf perlu interven.</p></div></div>
+    <div class="feat-card reveal"><div class="feat-icon">📊</div><div class="feat-text"><h3>Dashboard Analytics</h3><p>Pantau conversation, appointment dan kadar no-show setiap hari dari satu tempat.</p></div></div>
+  </div>
+</div>
+
+<section class="proof-section">
+  <div class="proof-inner">
+    <div class="section-tag">Keputusan sebenar</div>
+    <h2 class="section-title">Angka yang bercakap sendiri.</h2>
+    <div class="stats-row">
+      <div class="stat-box reveal"><div class="stat-big">-73%</div><div class="stat-small">Kadar no-show berkurang</div></div>
+      <div class="stat-box reveal"><div class="stat-big">8 jam</div><div class="stat-small">Masa staf jimat setiap minggu</div></div>
+      <div class="stat-box reveal"><div class="stat-big">5 saat</div><div class="stat-small">Masa bot balas mesej pesakit</div></div>
+      <div class="stat-box reveal"><div class="stat-big">30 hari</div><div class="stat-small">Trial percuma, no credit card</div></div>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon">🔔</div>
-      <div class="feature-text">
-        <h3>Reminder Pintar</h3>
-        <p>Auto hantar reminder 24 jam, 2 jam, dan 30 minit sebelum appointment. No-show rate turun drastik.</p>
+    <div class="testimonials-grid">
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Staf saya dulu habiskan 3–4 jam sehari jawab WhatsApp je. Sekarang bot buat semua tu. No-show pun turun 60%. Sangat berbaloi."</blockquote>
+        <div class="testi-author"><div class="testi-av">DR</div><div><div class="testi-name">Dr. R.</div><div class="testi-role">Klinik Swasta, Pulau Pinang</div></div></div>
       </div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">💬</div>
-      <div class="feature-text">
-        <h3>FAQ Auto-Reply</h3>
-        <p>Harga, waktu operasi, lokasi, servis — semua dijawab automatik. Staf anda fokus kerja lebih penting.</p>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Setup dalam masa sehari sahaja. Team dorang buat semua — saya cuma test dan approve. Pesakit suka sebab reply cepat 24 jam."</blockquote>
+        <div class="testi-author"><div class="testi-av">DR</div><div><div class="testi-name">Dr. H.</div><div class="testi-role">Klinik Gigi, Kuala Lumpur</div></div></div>
       </div>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">📊</div>
-      <div class="feature-text">
-        <h3>Dashboard Analytics</h3>
-        <p>Tengok berapa conversation, appointment, dan no-show setiap hari. Data jelas untuk buat keputusan bijak.</p>
+      <div class="testi-card reveal">
+        <div class="stars">★★★★★</div>
+        <blockquote>"RM397 sebulan tapi jimat lebih RM2,000 dari no-show yang berkurang. ROI dalam bulan pertama lagi. Tak rugi cuba."</blockquote>
+        <div class="testi-author"><div class="testi-av">DR</div><div><div class="testi-name">Dr. F.</div><div class="testi-role">Klinik Keluarga, Johor Bahru</div></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
 <section class="pricing-section" id="harga">
   <div class="pricing-inner">
-    <div style="text-align:center;">
-      <div class="section-label">Harga yang berpatutan</div>
-      <h2 class="section-title">Pilih plan yang sesuai</h2>
-      <p style="color:var(--grey);margin-top:12px;font-size:16px;">Semua plan ada trial percuma 30 hari. Tiada kontrak. Batal bila-bila masa.</p>
-    </div>
-
+    <div class="section-tag">Harga</div>
+    <h2 class="section-title">Pilih plan yang sesuai.<br>Batal bila-bila masa.</h2>
+    <p class="section-sub">Semua plan ada trial percuma 30 hari. Tiada kontrak. Tiada credit card diperlukan.</p>
     <div class="pricing-grid">
-      <div class="price-card">
+      <div class="price-card reveal">
         <div class="price-tier">Starter</div>
-        <div class="price-amount">RM197 <span>/bulan</span></div>
-        <div class="price-period">+ RM500 setup (one-time)</div>
+        <div class="price-num">RM197<sub>/bln</sub></div>
+        <div class="price-period">+ RM500 setup (sekali sahaja)</div>
         <div class="price-divider"></div>
-        <ul class="price-features">
+        <ul class="price-list">
           <li>1 nombor WhatsApp</li>
           <li>Auto-reply FAQ asas</li>
           <li>Booking appointment</li>
@@ -858,232 +618,124 @@
           <li>500 conversation/bulan</li>
           <li>Support via WhatsApp</li>
         </ul>
-        <a href="#daftar" class="price-btn price-btn-outline">Mulakan Trial Percuma</a>
+        <a href="#daftar" class="price-cta price-cta-outline">Mulakan Trial Percuma</a>
       </div>
-
-      <div class="price-card popular">
-        <div class="popular-badge">⭐ Paling Popular</div>
+      <div class="price-card hero-plan reveal">
+        <div class="price-badge">⭐ Paling Popular</div>
         <div class="price-tier">Growth</div>
-        <div class="price-amount">RM397 <span>/bulan</span></div>
-        <div class="price-period">+ RM800 setup (one-time)</div>
+        <div class="price-num">RM397<sub>/bln</sub></div>
+        <div class="price-period">+ RM800 setup (sekali sahaja)</div>
         <div class="price-divider"></div>
-        <ul class="price-features">
+        <ul class="price-list">
           <li>2 nombor WhatsApp</li>
-          <li>AI replies (BM + EN + Manglish)</li>
+          <li>AI replies BM + EN + Manglish</li>
           <li>Booking + follow-up auto</li>
           <li>Reminder pelbagai peringkat</li>
           <li>2,000 conversation/bulan</li>
           <li>Dashboard analytics</li>
           <li>Priority support</li>
         </ul>
-        <a href="#daftar" class="price-btn price-btn-filled">Mulakan Trial Percuma</a>
+        <a href="#daftar" class="price-cta price-cta-filled">Mulakan Trial Percuma</a>
       </div>
-
-      <div class="price-card">
+      <div class="price-card reveal">
         <div class="price-tier">Pro</div>
-        <div class="price-amount">RM797 <span>/bulan</span></div>
-        <div class="price-period">+ RM1,500 setup (one-time)</div>
+        <div class="price-num">RM797<sub>/bln</sub></div>
+        <div class="price-period">+ RM1,500 setup (sekali sahaja)</div>
         <div class="price-divider"></div>
-        <ul class="price-features">
+        <ul class="price-list">
           <li>Unlimited nombor WhatsApp</li>
           <li>AI custom untuk klinik anda</li>
           <li>CRM pesakit asas</li>
-          <li>Blast broadcast message</li>
+          <li>Broadcast blast message</li>
           <li>Unlimited conversation</li>
           <li>Laporan bulanan</li>
           <li>Dedicated account manager</li>
         </ul>
-        <a href="#daftar" class="price-btn price-btn-outline">Mulakan Trial Percuma</a>
+        <a href="#daftar" class="price-cta price-cta-outline">Mulakan Trial Percuma</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
-<section class="proof-section">
-  <div class="section-label">Kata mereka</div>
-  <h2 class="section-title">Dipercayai klinik seluruh Malaysia</h2>
-  <p style="color:var(--grey);margin-top:12px;font-size:15px;">*Beta testers & early adopters. Nama dirahsiakan atas permintaan.</p>
-
-  <div class="testimonials">
-    <div class="testimonial">
-      <div class="stars">★★★★★</div>
-      <p>"Dulu staf saya spend 3-4 jam sehari jawab WhatsApp je. Sekarang bot buat semua tu. No-show pun dah kurang 60%. Sangat berbaloi."</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">DR</div>
-        <div>
-          <div class="author-name">Dr. R.</div>
-          <div class="author-role">Klinik Swasta, Pulau Pinang</div>
-        </div>
-      </div>
-    </div>
-    <div class="testimonial">
-      <div class="stars">★★★★★</div>
-      <p>"Setup dalam masa sehari. Team dorang buat semua — saya cuma test dan approve. Pesakit pun suka sebab reply cepat, 24 jam."</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">DR</div>
-        <div>
-          <div class="author-name">Dr. H.</div>
-          <div class="author-role">Klinik Gigi, Kuala Lumpur</div>
-        </div>
-      </div>
-    </div>
-    <div class="testimonial">
-      <div class="stars">★★★★★</div>
-      <p>"RM397 sebulan tapi save lebih RM2,000 dari no-show yang berkurangan. ROI dalam bulan pertama lagi. Tak rugi cuba."</p>
-      <div class="testimonial-author">
-        <div class="author-avatar">DR</div>
-        <div>
-          <div class="author-name">Dr. F.</div>
-          <div class="author-role">Klinik Keluarga, Johor Bahru</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA FINAL -->
 <section class="cta-section" id="daftar">
   <div class="cta-inner">
-    <h2>Mula jimat masa &<br>duit anda hari ini</h2>
-    <p>Daftar sekarang. Trial percuma 30 hari. Tiada credit card diperlukan. Kami setup semua untuk anda.</p>
-
-    <div class="signup-form">
-      <div class="form-title">Daftar Trial Percuma 30 Hari</div>
-      <div class="form-sub">Kami akan hubungi anda dalam masa 24 jam untuk setup.</div>
-
-      <div class="form-group">
-        <label>Nama Doktor / Pengurus Klinik</label>
-        <input type="text" placeholder="Dr. Ahmad bin Abdullah">
-      </div>
-      <div class="form-group">
-        <label>Nama Klinik</label>
-        <input type="text" placeholder="Klinik Dr. Ahmad">
-      </div>
-      <div class="form-group">
-        <label>Nombor WhatsApp</label>
-        <input type="tel" placeholder="011-2345 6789">
-      </div>
-      <div class="form-group">
-        <label>Negeri</label>
-        <input type="text" placeholder="Pulau Pinang, Kuala Lumpur...">
-      </div>
-
+    <div class="cta-left">
+      <div class="section-tag">Mulakan hari ini</div>
+      <h2>Klinik anda layak dapat yang lebih baik.</h2>
+      <p>Setiap hari tanpa automasi adalah hari pesakit lari, staf tertekan, dan duit tertinggal di atas meja. Ambil langkah pertama sekarang.</p>
+      <ul class="cta-points">
+        <li><span>✓</span> Setup percuma — kami buat semua untuk anda</li>
+        <li><span>✓</span> 30 hari trial tanpa risiko</li>
+        <li><span>✓</span> Tiada kontrak, batal bila-bila masa</li>
+        <li><span>✓</span> Support dalam Bahasa Malaysia</li>
+        <li><span>✓</span> Kami hubungi dalam masa 24 jam</li>
+      </ul>
+    </div>
+    <div class="form-card reveal">
+      <h3>Daftar Trial Percuma 30 Hari</h3>
+      <p>Kami akan hubungi anda dalam masa 24 jam untuk setup.</p>
+      <div class="form-group"><label>Nama Doktor / Pengurus Klinik</label><input type="text" id="f-nama" placeholder="Dr. Ahmad bin Abdullah"></div>
+      <div class="form-group"><label>Nama Klinik</label><input type="text" id="f-klinik" placeholder="Klinik Dr. Ahmad"></div>
+      <div class="form-group"><label>Nombor WhatsApp</label><input type="tel" id="f-wa" placeholder="011-2345 6789"></div>
+      <div class="form-group"><label>Negeri</label><input type="text" id="f-negeri" placeholder="Pulau Pinang, KL, Johor..."></div>
       <button class="form-submit" id="submitBtn">🚀 Daftar Trial Percuma Sekarang</button>
-
-
-      <div class="form-guarantee">🔒 Data anda selamat. Tiada spam. Batal bila-bila masa.
-      </div>
+      <p class="form-note">🔒 Data anda selamat. Tiada spam. Batal bila-bila masa.</p>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Klinik<span>Bot</span></div>
-  <p>© 2025 KlinikBot. Dibuat dengan ❤️ di Malaysia.</p>
-  <p style="font-size:13px;color:var(--grey);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="355d5059595a755e595c5b5c5e575a411b584c">[email&#160;protected]</a> · +60 11-XXXX XXXX</p>
+  <div class="footer-inner">
+    <div class="footer-logo">Klinik<span>Bot</span></div>
+    <p>© 2025 KlinikBot. Dibuat dengan ❤️ di Malaysia.</p>
+    <p>hello@klinikbot.my · +60 11-XXXX XXXX</p>
+  </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 var SHEET_URL = 'https://script.google.com/macros/s/AKfycbyjsDpk6UV2Gz_WEpSThgOH56v4h5TAG8UFrVSkglRQyPvVpR2P2YPztTTADtt_5wk/exec';
 
 var btn = document.getElementById('submitBtn');
 btn.onclick = function() {
-  var inputs = document.querySelectorAll('.form-group input');
-  var nama = inputs[0].value.trim();
-  var klinik = inputs[1].value.trim();
-  var whatsapp = inputs[2].value.trim();
-  var negeri = inputs[3].value.trim();
+  var nama   = document.getElementById('f-nama').value.trim();
+  var klinik = document.getElementById('f-klinik').value.trim();
+  var wa     = document.getElementById('f-wa').value.trim();
+  var negeri = document.getElementById('f-negeri').value.trim();
+  var ids    = ['f-nama','f-klinik','f-wa','f-negeri'];
+  var ok     = true;
 
-  if (!nama || !klinik || !whatsapp || !negeri) {
-    inputs.forEach(function(input) {
-      if (!input.value.trim()) {
-        input.style.borderColor = '#FF6B35';
-        setTimeout(function() { input.style.borderColor = 'rgba(255,255,255,0.1)'; }, 2000);
-      }
-    });
-    return;
-  }
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el.value.trim()) {
+      ok = false;
+      el.style.borderColor = '#E8372A';
+      el.style.boxShadow   = '0 0 0 3px rgba(232,55,42,0.1)';
+      setTimeout(function(){ el.style.borderColor=''; el.style.boxShadow=''; }, 2500);
+    }
+  });
+  if (!ok) return;
 
   btn.textContent = '⏳ Menghantar...';
   btn.disabled = true;
 
-  var data = { nama: nama, klinik: klinik, whatsapp: whatsapp, negeri: negeri };
-
   fetch(SHEET_URL, {
-    method: 'POST',
-    mode: 'no-cors',
+    method: 'POST', mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
+    body: JSON.stringify({ nama:nama, klinik:klinik, whatsapp:wa, negeri:negeri })
   });
 
   setTimeout(function() {
-    btn.textContent = '✅ Berjaya! Kami akan hubungi anda dalam 24 jam.';
-    btn.style.background = '#00A374';
-    inputs.forEach(function(input) { input.disabled = true; input.style.opacity = '0.5'; });
+    btn.textContent = '✅ Berjaya! Kami hubungi anda dalam 24 jam.';
+    btn.style.background = '#0B6E4F';
+    ids.forEach(function(id){ var e=document.getElementById(id); e.disabled=true; e.style.opacity='0.5'; });
   }, 1500);
 };
 
-// Scroll animations
-var observer = new IntersectionObserver(function(entries) {
-  entries.forEach(function(entry) {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-    }
-  });
+// Scroll reveal
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
-
-document.querySelectorAll('.pain-card, .step, .feature-card, .price-card, .testimonial').forEach(function(el) {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(24px)';
-  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-  observer.observe(el);
-});
-</script><script>
-  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyjsDpk6UV2Gz_WEpSThgOH56v4h5TAG8UFrVSkglRQyPvVpR2P2YPztTTADtt_5wk/exec';
-
-  // Attach directly - DOMContentLoaded may have already fired
-  var btn = document.getElementById('submitBtn');
-  if (btn) {
-    btn.addEventListener('click', async function() {
-        var fields = ['nama', 'klinik', 'whatsapp', 'negeri'];
-        var inputs = document.querySelectorAll('.form-group input');
-        var allFilled = true;
-        var data = {};
-
-        inputs.forEach(function(input, i) {
-          if (!input.value.trim()) {
-            allFilled = false;
-            input.style.borderColor = '#FF6B35';
-            setTimeout(function() { input.style.borderColor = 'rgba(255,255,255,0.1)'; }, 2000);
-          } else {
-            data[fields[i]] = input.value.trim();
-          }
-        });
-
-        if (!allFilled) return;
-
-        btn.textContent = '⏳ Menghantar...';
-        btn.disabled = true;
-
-        fetch(SHEET_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-
-        setTimeout(function() {
-          btn.textContent = '✅ Pendaftaran Berjaya! Kami akan hubungi anda dalam 24 jam.';
-          btn.style.background = '#00A374';
-          inputs.forEach(function(input) { input.disabled = true; input.style.opacity = '0.5'; });
-        }, 1500);
-      });
-  });
-
-  // Scroll animations
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isInters
+document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+</script>
+</body>
+</html>
